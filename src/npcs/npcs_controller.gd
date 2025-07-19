@@ -40,8 +40,8 @@ var spawn_npcs: Array[Dictionary] = [
 @onready var sectors: Array[Array] = [
 	[sector_0_row_0, sector_0_row_1, sector_0_row_2, sector_0_row_3],
 	[sector_1_row_0, sector_1_row_1, sector_1_row_2, sector_1_row_3],
-	#[sector_2_row_0, sector_2_row_1, sector_2_row_2, sector_2_row_3],
-	#[sector_3_row_0, sector_3_row_1, sector_3_row_2, sector_3_row_3]
+	[sector_2_row_0, sector_2_row_1, sector_2_row_2, sector_2_row_3],
+	[sector_3_row_0, sector_3_row_1, sector_3_row_2, sector_3_row_3]
 ]
 
 func _ready():
@@ -116,16 +116,17 @@ func _on_spawn_timer_timeout():
 
 func spawn_npc():
 	var selected_npc_data = get_random_weighted_npc()
-	var spawn_position = get_random_spawn_position()
+	var spawn = get_random_spawn_position()
 
 	var npc_scene = selected_npc_data.scene as PackedScene
 
 	var npc_instance = npc_scene.instantiate()
 	spawned_container.add_child(npc_instance)
 	npc_instance.npcs_controller = self
-	npc_instance.global_position = spawn_position
-
-	#print("NPC spawnado em: ", spawn_position)
+	npc_instance.current_sector = spawn.sector
+	npc_instance.global_position = spawn.position
+	
+	print("NPC spawnado em: ", spawn.position, " Secotr: ", spawn.sector)
 
 func get_random_weighted_npc() -> Dictionary:
 	var total_weight = 0.0
@@ -143,10 +144,16 @@ func get_random_weighted_npc() -> Dictionary:
 
 	return spawn_npcs[0] if not spawn_npcs.is_empty() else {}
 
-func get_random_spawn_position() -> Vector3:
-	var random_sector = sectors.pick_random()
+func get_random_spawn_position():
+	var sector_indexes = sectors.size()
+	var sector_indexes_list: Array[int]
+	for index in sector_indexes:
+		sector_indexes_list.append(index)
+		
+	var random_sector_index = sector_indexes_list.pick_random()
+	var random_sector = sectors[random_sector_index]
 
 	var first_row = random_sector[0]
 	var random_marker = first_row.pick_random()
 
-	return random_marker.global_position
+	return { position = random_marker.global_position, sector = random_sector_index }
