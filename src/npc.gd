@@ -20,12 +20,19 @@ var is_moving = false
 var body: Node3D
 enum NPCType {ENEMY, GOOD_BOT}
 var type: NPCType
+@onready var lantern: SpotLight3D = $Lantern
 
 var is_running_away = false
+var had_hit_battery = false
 
 func _ready():
 	await get_tree().create_timer(0.3).timeout
 	get_next_position()
+
+	if type == NPCType.ENEMY:
+		lantern.light_energy = 0
+	else:
+		lantern.light_energy = 10
 
 func _process(_delta: float):
 	if is_moving == false && has_returned:
@@ -34,12 +41,15 @@ func _process(_delta: float):
 	if is_running_away:
 		speed = running_speed
 
+	if is_running_away && type == NPCType.ENEMY && !had_hit_battery:
+		hit_battery()
+
 func _physics_process(delta):
 	if is_moving and not has_returned:
 		move_towards_target(delta)
 
 func get_next_position():
-	if has_reached_target:
+	if has_reached_target && type == NPCType.ENEMY:
 		is_running_away = true
 
 	var next_data = npcs_controller.get_next_position(
@@ -81,3 +91,6 @@ func move_towards_target(delta):
 		get_next_position()
 
 	move_and_slide()
+
+func hit_battery():
+	SignalBus.emit_signal("hit_battery")

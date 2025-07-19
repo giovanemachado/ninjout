@@ -5,7 +5,6 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x1lrr"]
 resource_name = "texture-d"
-shading_mode = 0
 albedo_texture = ExtResource("1_6qu8m")
 texture_filter = 1
 

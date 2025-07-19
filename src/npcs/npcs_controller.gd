@@ -185,7 +185,6 @@ func get_random_spawn_position():
 
 	return {position = random_marker.global_position, sector = random_sector_index}
 
-
 func _on_game_controller_light_toggled(light_number: int, is_on: bool) -> void:
 	if is_on:
 		make_enemies_flee_from_sector(light_number)

@@ -1,6 +1,7 @@
 extends Node
 
 # signal game_over
+signal hit_battery
 
 
 # To connect:

@@ -9,11 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://cc433vdsf6qy0" path="res://asssets/kenney_space-station-kit/Models/GLB format/rocks.glb" id="5_2ctbf"]
 [ext_resource type="PackedScene" uid="uid://c33kra5w48yw6" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor.glb" id="8_5nsj5"]
 [ext_resource type="PackedScene" uid="uid://cm8p3vjkhphan" path="res://src/wall_light/wall_light.tscn" id="8_dgnu1"]
-[ext_resource type="PackedScene" uid="uid://1ym0ryrx0bl6" path="res://asssets/kenney_space-station-kit/Models/GLB format/container-flat.glb" id="9_2ctbf"]
+[ext_resource type="PackedScene" uid="uid://ch0pwbuxebu3d" path="res://src/batteries/battery.tscn" id="10_dnrlx"]
 [ext_resource type="Texture2D" uid="uid://dimkjl06nif0o" path="res://asssets/kenney_prototype-kit/Models/GLB format/Textures/colormap.png" id="12_5nsj5"]
 
 [sub_resource type="Environment" id="Environment_dnrlx"]
 background_energy_multiplier = 0.0
+volumetric_fog_enabled = true
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_6xysf"]
 dof_blur_far_distance = 80.0
@@ -189,11 +190,16 @@ shadow_mesh = SubResource("ArrayMesh_cp2kq")
 [node name="GameController" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_bcs0a")
+light_fade_duration = 1.5
+button_cooldown_duration = 1.5
 
 [node name="CooldownTimer" type="Timer" parent="GameController"]
 
 [node name="PowerController" type="Node" parent="."]
 script = ExtResource("2_5ucx0")
+energy_subtract_timing = 1.5
+light_multiplier = 2.0
+hit_reduction_amount = -15
 
 [node name="EnergyTimer" type="Timer" parent="PowerController"]
 
@@ -554,6 +560,7 @@ light_energy = 0.0
 
 [node name="DebugLight" type="DirectionalLight3D" parent="Environment/Lights"]
 transform = Transform3D(0.886187, 0.433707, -0.163003, 0.463327, -0.829535, 0.311769, 0, -0.351809, -0.936072, -14.049, 17.8507, 0)
+visible = false
 editor_only = true
 
 [node name="WallLight" parent="Environment/Lights" instance=ExtResource("8_dgnu1")]
@@ -967,17 +974,17 @@ transform = Transform3D(5.76453, 0, 1.66439, 0, 6, 0, -1.66439, 0, 5.76453, -19.
 [node name="Batteries" type="Node3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000490189, 0.105066, -0.0470562)
 
-[node name="container-flat2" parent="Environment/Batteries" instance=ExtResource("9_2ctbf")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 1.01951, 0, 2.34379)
+[node name="Battery" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.03856, 0, -1.70921, 0, 2, 0, 1.70921, 0, -1.03856, 1.01951, 0, 2.34379)
 
-[node name="container-flat3" parent="Environment/Batteries" instance=ExtResource("9_2ctbf")]
-transform = Transform3D(1.97971, 0, -0.284187, 0, 2, 0, 0.284187, 0, 1.97971, -1.80226, 0, 2.34379)
+[node name="Battery2" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(0.660502, 0, -1.88779, 0, 2, 0, 1.88779, 0, 0.660502, 1.01951, 0, 0.50545)
 
-[node name="container-flat4" parent="Environment/Batteries" instance=ExtResource("9_2ctbf")]
-transform = Transform3D(1.33567, 0, 1.48862, 0, 2, 0, -1.48862, 0, 1.33567, 0.373787, 0, 0.432635)
+[node name="Battery3" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.94501, 0, 0.46577, 0, 2, 0, -0.46577, 0, -1.94501, -1.55213, 0, 0.50545)
 
-[node name="container-flat5" parent="Environment/Batteries" instance=ExtResource("9_2ctbf")]
-transform = Transform3D(1.48507, 0, 1.33961, 0, 2, 0, -1.33961, 0, 1.48507, -0.47987, 0, 4.57953)
+[node name="Battery4" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(1.7355, 0, 0.994009, 0, 2, 0, -0.994009, 0, 1.7355, -0.775017, 0, 2.44272)
 
 [node name="Numbers" type="Node3D" parent="Environment"]
 

@@ -9,8 +9,16 @@ height = 5.8657
 [node name="NPC" type="CharacterBody3D"]
 collision_mask = 0
 script = ExtResource("1_ux0ts")
-speed = 10.0
+speed = 1.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_3siek")
 debug_color = Color(0, 0.595, 0.7, 0)
+
+[node name="Lantern" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.972133, 0.234429, 0, -0.234429, -0.972133, 0, 2.60065, 0.496284)
+light_color = Color(0.927686, 0.803573, 0.537054, 1)
+light_energy = 0.0
+light_size = 0.196
+spot_range = 8.68954
+spot_angle = 18.4093
