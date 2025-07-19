@@ -45,8 +45,11 @@ shadow_mesh = SubResource("ArrayMesh_jj73j")
 
 [node name="Battery" type="Node3D"]
 script = ExtResource("1_1qf1e")
+color_change_duration = 0.5
 
 [node name="BlinkTimer" type="Timer" parent="."]
+
+[node name="ColorTimer" type="Timer" parent="."]
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.062403, 0.320871, -0.677054)

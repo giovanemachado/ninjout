@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=39 format=4 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
 [ext_resource type="Script" uid="uid://dtelihkft1rus" path="res://src/power_controller.gd" id="2_5ucx0"]
@@ -6,6 +6,8 @@
 [ext_resource type="AudioStream" uid="uid://c7eo6sf0oi24n" path="res://asssets/bullet-hit-metal-84818.mp3" id="3_5nsj5"]
 [ext_resource type="Script" uid="uid://gfg2mnxh7hf0" path="res://src/npcs/npcs_controller.gd" id="3_8dmv6"]
 [ext_resource type="PackedScene" uid="uid://4utmxih65j2x" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor-detail.glb" id="3_8xemo"]
+[ext_resource type="AudioStream" uid="uid://b1uffrjbka1sr" path="res://asssets/power-up-type-1-230548.mp3" id="4_5qqh1"]
+[ext_resource type="Script" uid="uid://b7fj7wio6i3ko" path="res://src/camera_shake.gd" id="4_dgnu1"]
 [ext_resource type="PackedScene" uid="uid://kpvdiilggxo0" path="res://asssets/kenney_space-station-kit/Models/GLB format/wall.glb" id="4_tceeg"]
 [ext_resource type="PackedScene" uid="uid://cc433vdsf6qy0" path="res://asssets/kenney_space-station-kit/Models/GLB format/rocks.glb" id="5_2ctbf"]
 [ext_resource type="Script" uid="uid://clk10iu2q4tn1" path="res://src/batteries/hit_detector.gd" id="6_5ucx0"]
@@ -239,6 +241,7 @@ unique_name_in_owner = true
 script = ExtResource("1_bcs0a")
 light_fade_duration = 0.5
 button_cooldown_duration = 0.2
+initial_timeout = 10
 
 [node name="CooldownTimer" type="Timer" parent="GameController"]
 
@@ -256,6 +259,18 @@ pitch_scale = 0.64
 stream = ExtResource("3_5nsj5")
 volume_db = -5.0
 pitch_scale = 1.5
+
+[node name="PowerUpEffect" type="AudioStreamPlayer3D" parent="GameController"]
+stream = ExtResource("4_5qqh1")
+volume_db = -8.495
+pitch_scale = 1.18
+
+[node name="CameraShake" type="Node" parent="GameController"]
+script = ExtResource("4_dgnu1")
+
+[node name="ScoreTimer" type="Timer" parent="GameController"]
+
+[node name="DifficultTimer" type="Timer" parent="GameController"]
 
 [node name="PowerController" type="Node" parent="." node_paths=PackedStringArray("batteries", "batteries2")]
 script = ExtResource("2_5ucx0")
@@ -549,6 +564,37 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "quit"
 
+[node name="Score" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Score"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -158.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Score/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Score/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "kw/h"
+
+[node name="Score" type="Label" parent="UI/Score/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
 [node name="Environment" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
@@ -558,6 +604,7 @@ camera_attributes = SubResource("CameraAttributesPractical_6xysf")
 [node name="Camera" type="Node3D" parent="Environment"]
 
 [node name="Camera3D" type="Camera3D" parent="Environment/Camera"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, -0.099451, 20.6161, 17.9369)
 
 [node name="Lights" type="Node3D" parent="Environment"]

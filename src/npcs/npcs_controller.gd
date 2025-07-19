@@ -11,7 +11,7 @@ var spawn_npcs: Array[Dictionary] = [
 		type = NPC.NPCType.ENEMY
 	},
 	{
-		weight = 6,
+		weight = 0.1,
 		scene = preload("res://src/npcs/npc.tscn"),
 		body = preload("res://src/npcs/body_1.tscn"),
 		type = NPC.NPCType.GOOD_BOT

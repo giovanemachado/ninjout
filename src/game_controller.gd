@@ -12,11 +12,15 @@ class_name GameController
 var lights_state: Array[bool] = [false, false, false, false]
 var can_toggle_lights: bool = true
 @onready var poweroff_animator: AnimationPlayer = $PoweroffAnimator
+@export var difficult_timing: float
+var difficult_level: int
+@onready var difficult_timer: Timer = $DifficultTimer
 
 signal light_toggled(light_number: int, is_on: bool)
 
 @onready var cooldown_timer: Timer = $CooldownTimer
 @onready var power_controller: PowerController = $"../PowerController"
+@onready var camera_shake: CameraShake = $CameraShake
 
 @onready var wall_light: WallLight = %WallLight
 @onready var wall_light_2: WallLight = %WallLight2
@@ -30,15 +34,29 @@ signal light_toggled(light_number: int, is_on: bool)
 
 @onready var explosion_effect: AudioStreamPlayer3D = $ExplosionEffect
 @onready var hit_metal_effect: AudioStreamPlayer3D = $HitMetalEffect
+@onready var power_up_effect: AudioStreamPlayer3D = $PowerUpEffect
+
+@onready var score_label: Label = %Score
 
 @export var initial_timeout = 15
+
+@export var score_subtraction_by_ninja: int = 15
+@export var score_increase_by_bot: int = 5
+@onready var score_timer: Timer = $ScoreTimer
 
 func _ready():
 	SignalBus.hit_battery.connect(_on_hit_battery)
 
+	Globals.reset_score()
+	update_score_display()
+
 	cooldown_timer.timeout.connect(_on_cooldown_timer_timeout)
 	cooldown_timer.wait_time = button_cooldown_duration
 	cooldown_timer.one_shot = true
+
+	score_timer.timeout.connect(_on_score_timer_timeout)
+	score_timer.wait_time = 1.0
+	score_timer.start()
 
 	play_light.light_energy = initial_light_energy
 	await get_tree().create_timer(initial_timeout).timeout
@@ -74,6 +92,7 @@ func _on_quit_pressed() -> void:
 
 func start_light_fade():
 	explosion_effect.playing = true
+	camera_shake.shake_explosion()
 	poweroff_animator.play("power_off")
 	power_controller.start_energy_timer()
 
@@ -136,4 +155,20 @@ func get_sectors_with_lights_on() -> Array[int]:
 
 func _on_hit_battery(is_enemy: bool):
 	if is_enemy:
+		camera_shake.shake_impulse()
 		hit_metal_effect.playing = true
+		update_score(-score_subtraction_by_ninja)
+	else:
+		power_up_effect.playing = true
+		update_score(score_increase_by_bot)
+
+func update_score(points: int):
+	Globals.add_score(points)
+	update_score_display()
+
+func update_score_display():
+	if score_label:
+		score_label.text = str(Globals.get_score())
+
+func _on_score_timer_timeout():
+	update_score(1)

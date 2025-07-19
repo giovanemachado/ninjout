@@ -14,7 +14,8 @@ func _on_body_entered(body: Node3D):
 	# detect enemies inclui tambem aliados
 	if npc.type == NPC.NPCType.ENEMY and not detected_enemies.has(npc):
 		detected_enemies.append(npc)
-		SignalBus.hit_battery.emit(true)
+		if !npc.is_running_away:
+			SignalBus.hit_battery.emit(true)
 		#print("Bateria atingida por inimigo!")
 
 	if npc.type == NPC.NPCType.GOOD_BOT and not detected_enemies.has(npc):

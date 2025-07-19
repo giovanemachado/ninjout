@@ -86,7 +86,7 @@ func light_off():
 	# print("Luzes acesas: ", lights_on_count)
 
 
-func _on_game_controller_light_toggled(light_number: int, is_on: bool) -> void:
+func _on_game_controller_light_toggled(_light_number: int, is_on: bool) -> void:
 	if is_on:
 		light_on()
 	else:
@@ -94,7 +94,20 @@ func _on_game_controller_light_toggled(light_number: int, is_on: bool) -> void:
 
 func _on_hit_battery(is_enemy: bool):
 	if is_enemy:
+		batteries_effect(true)
 		update_energy(hit_reduction_amount)
 	else:
+		batteries_effect(false)
 		update_energy(hit_increase_amount)
-		
+
+func batteries_effect(bad: bool):
+	for i in batteries.size():
+		var battery = batteries[i]
+		var battery2 = batteries2[i]
+		if battery:
+			if bad:
+				battery.flash_red()
+				battery2.flash_red()
+			else:
+				battery.flash_green()
+				battery2.flash_green()
