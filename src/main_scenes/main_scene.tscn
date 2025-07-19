@@ -239,7 +239,6 @@ unique_name_in_owner = true
 script = ExtResource("1_bcs0a")
 light_fade_duration = 0.5
 button_cooldown_duration = 0.2
-initial_timeout = 5
 
 [node name="CooldownTimer" type="Timer" parent="GameController"]
 
