@@ -10,6 +10,7 @@ var light_energy_on: float = 2.0
 
 var is_light_on: bool = false
 var current_tween: Tween
+@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 func _ready():
 	light_energy_on = spot_light.light_energy
@@ -26,8 +27,10 @@ func toggle_light():
 	
 	if is_light_on:
 		omni_light_3d.hide()
+		audio_stream_player_3d.playing = false
 	else:
 		omni_light_3d.show()
+		audio_stream_player_3d.playing = true
 
 	current_tween.tween_property(spot_light, "light_energy", target_energy, fade_duration)
 

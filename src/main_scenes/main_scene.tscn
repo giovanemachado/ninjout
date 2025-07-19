@@ -1,12 +1,15 @@
-[gd_scene load_steps=32 format=4 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=36 format=4 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
 [ext_resource type="Script" uid="uid://dtelihkft1rus" path="res://src/power_controller.gd" id="2_5ucx0"]
+[ext_resource type="AudioStream" uid="uid://m8tg55fk5too" path="res://asssets/explosion-under-snow-sfx-230505.mp3" id="2_8dmv6"]
+[ext_resource type="AudioStream" uid="uid://c7eo6sf0oi24n" path="res://asssets/bullet-hit-metal-84818.mp3" id="3_5nsj5"]
 [ext_resource type="Texture2D" uid="uid://bxv4v80rbyxkr" path="res://asssets/kenney_ui-pack-space-expansion/button_square_header_small_rectangle.png" id="3_5ucx0"]
 [ext_resource type="Script" uid="uid://gfg2mnxh7hf0" path="res://src/npcs/npcs_controller.gd" id="3_8dmv6"]
 [ext_resource type="PackedScene" uid="uid://4utmxih65j2x" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor-detail.glb" id="3_8xemo"]
 [ext_resource type="PackedScene" uid="uid://kpvdiilggxo0" path="res://asssets/kenney_space-station-kit/Models/GLB format/wall.glb" id="4_tceeg"]
 [ext_resource type="PackedScene" uid="uid://cc433vdsf6qy0" path="res://asssets/kenney_space-station-kit/Models/GLB format/rocks.glb" id="5_2ctbf"]
+[ext_resource type="Script" uid="uid://clk10iu2q4tn1" path="res://src/batteries/hit_detector.gd" id="6_5ucx0"]
 [ext_resource type="PackedScene" uid="uid://chb1jmxami74s" path="res://src/objects/small_light.tscn" id="6_8xemo"]
 [ext_resource type="PackedScene" uid="uid://c33kra5w48yw6" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor.glb" id="8_5nsj5"]
 [ext_resource type="PackedScene" uid="uid://cm8p3vjkhphan" path="res://src/wall_light/wall_light.tscn" id="8_dgnu1"]
@@ -51,6 +54,9 @@ _data = {
 &"RESET": SubResource("Animation_3siek"),
 &"power_off": SubResource("Animation_r1wu1")
 }
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5nsj5"]
+size = Vector3(4.93173, 3.07727, 4.84799)
 
 [sub_resource type="Environment" id="Environment_dnrlx"]
 background_energy_multiplier = 0.0
@@ -239,6 +245,16 @@ button_cooldown_duration = 1.5
 libraries = {
 &"": SubResource("AnimationLibrary_8dmv6")
 }
+
+[node name="ExplosionEffect" type="AudioStreamPlayer3D" parent="GameController"]
+stream = ExtResource("2_8dmv6")
+volume_db = -5.818
+pitch_scale = 0.64
+
+[node name="HitMetalEffect" type="AudioStreamPlayer3D" parent="GameController"]
+stream = ExtResource("3_5nsj5")
+volume_db = -5.0
+pitch_scale = 1.5
 
 [node name="PowerController" type="Node" parent="."]
 script = ExtResource("2_5ucx0")
@@ -477,6 +493,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87314, 0.253851, -1.30174)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86898, 0.253851, -1.30174)
 
 [node name="SpawnTimer" type="Timer" parent="NPCsController"]
+
+[node name="HitDetector" type="Area3D" parent="NPCsController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31314, 0)
+script = ExtResource("6_5ucx0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPCsController/HitDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.282791, 1.03864, 0.421103)
+shape = SubResource("BoxShape3D_5nsj5")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -1201,4 +1225,6 @@ transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, -18.1398, 0.274664, -3.807
 [connection signal="light_toggled" from="GameController" to="NPCsController" method="_on_game_controller_light_toggled"]
 [connection signal="energy_depleted" from="PowerController" to="GameController" method="_on_power_controller_energy_depleted"]
 [connection signal="energy_updated" from="PowerController" to="GameController" method="_on_power_controller_energy_updated"]
+[connection signal="body_entered" from="NPCsController/HitDetector" to="NPCsController/HitDetector" method="_on_body_entered"]
+[connection signal="body_exited" from="NPCsController/HitDetector" to="NPCsController/HitDetector" method="_on_body_exited"]
 [connection signal="pressed" from="UI/DebugMenu/VBoxContainer/Quit" to="GameController" method="_on_quit_pressed"]

@@ -33,12 +33,15 @@ signal light_toggled(light_number: int, is_on: bool)
 @onready var indicator_square_b_3: Node3D = $"../Environment/Numbers/Number3/indicator-square-b6"
 @onready var indicator_square_b_4: Node3D = $"../Environment/Numbers/Number4/indicator-square-b7"
 
+@onready var explosion_effect: AudioStreamPlayer3D = $ExplosionEffect
+@onready var hit_metal_effect: AudioStreamPlayer3D = $HitMetalEffect
 
 func _ready():
 	button.pressed.connect(_on_button_1_pressed)
 	button_2.pressed.connect(_on_button_2_pressed)
 	button_3.pressed.connect(_on_button_3_pressed)
 	button_4.pressed.connect(_on_button_4_pressed)
+	SignalBus.hit_battery.connect(_on_hit_battery)
 
 	cooldown_timer.timeout.connect(_on_cooldown_timer_timeout)
 	cooldown_timer.wait_time = button_cooldown_duration
@@ -68,6 +71,7 @@ func _on_quit_pressed() -> void:
 	quit_game()
 
 func start_light_fade():
+	explosion_effect.playing = true
 	poweroff_animator.play("power_off")
 	power_controller.start_energy_timer()
 
@@ -141,3 +145,6 @@ func get_sectors_with_lights_on() -> Array[int]:
 			sectors_with_lights.append(i)
 
 	return sectors_with_lights
+
+func _on_hit_battery():
+	hit_metal_effect.playing = true
