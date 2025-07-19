@@ -1,17 +1,24 @@
-[gd_scene load_steps=13 format=3 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=19 format=3 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
+[ext_resource type="Texture2D" uid="uid://bxv4v80rbyxkr" path="res://asssets/kenney_ui-pack-space-expansion/button_square_header_small_rectangle.png" id="3_5ucx0"]
 [ext_resource type="PackedScene" uid="uid://4utmxih65j2x" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor-detail.glb" id="3_8xemo"]
 [ext_resource type="PackedScene" uid="uid://kpvdiilggxo0" path="res://asssets/kenney_space-station-kit/Models/GLB format/wall.glb" id="4_tceeg"]
 [ext_resource type="PackedScene" uid="uid://cc433vdsf6qy0" path="res://asssets/kenney_space-station-kit/Models/GLB format/rocks.glb" id="5_2ctbf"]
+[ext_resource type="PackedScene" uid="uid://bmv7hp7d16g1h" path="res://asssets/kenney_space-station-kit/Models/GLB format/display-wall-wide.glb" id="7_8dmv6"]
 [ext_resource type="PackedScene" uid="uid://c33kra5w48yw6" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor.glb" id="8_5nsj5"]
 [ext_resource type="PackedScene" uid="uid://1ym0ryrx0bl6" path="res://asssets/kenney_space-station-kit/Models/GLB format/container-flat.glb" id="9_2ctbf"]
 [ext_resource type="PackedScene" uid="uid://dfkvguhelets0" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/character-d.glb" id="9_dgnu1"]
+[ext_resource type="PackedScene" uid="uid://cpgnyh3n1jdab" path="res://asssets/kenney_prototype-kit/Models/GLB format/number-1.glb" id="9_r1wu1"]
+[ext_resource type="PackedScene" uid="uid://dso1yittvnh7h" path="res://asssets/kenney_prototype-kit/Models/GLB format/number-2.glb" id="10_3siek"]
 [ext_resource type="PackedScene" uid="uid://clw652babmjjo" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/character-g.glb" id="10_5qqh1"]
+[ext_resource type="PackedScene" uid="uid://b80a1wj8bik4i" path="res://asssets/kenney_prototype-kit/Models/GLB format/number-3.glb" id="11_8dmv6"]
 [ext_resource type="PackedScene" uid="uid://bo2gyf3akjax8" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/character-h.glb" id="11_keaua"]
+[ext_resource type="PackedScene" uid="uid://b36b8q1efp6fq" path="res://asssets/kenney_prototype-kit/Models/GLB format/number-4.glb" id="12_5ucx0"]
 [ext_resource type="PackedScene" uid="uid://khigok8cxkla" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/character-r.glb" id="12_yaayf"]
 
 [sub_resource type="Environment" id="Environment_dnrlx"]
+background_energy_multiplier = 0.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_6xysf"]
 dof_blur_far_enabled = true
@@ -23,6 +30,12 @@ dof_blur_amount = 0.03
 
 [node name="GameController" type="Node" parent="."]
 script = ExtResource("1_bcs0a")
+
+[node name="CooldownTimer" type="Timer" parent="GameController"]
+
+[node name="PowerController" type="Node" parent="."]
+
+[node name="NPCsController" type="Node" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -68,17 +81,76 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "quit"
 
+[node name="Panel" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ButtonSquareHeaderSmallRectangle" type="Sprite2D" parent="UI/Panel"]
+position = Vector2(573, 161.205)
+rotation = 3.14159
+scale = Vector2(3.875, 1.92468)
+texture = ExtResource("3_5ucx0")
+
+[node name="Button" type="Button" parent="UI/Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 334.0
+offset_top = 70.0
+offset_right = 432.0
+offset_bottom = 165.0
+text = "1
+"
+
+[node name="Button2" type="Button" parent="UI/Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 484.0
+offset_top = 70.0
+offset_right = 582.0
+offset_bottom = 165.0
+text = "2"
+
+[node name="Button3" type="Button" parent="UI/Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 644.0
+offset_top = 70.0
+offset_right = 742.0
+offset_bottom = 165.0
+text = "3
+"
+
+[node name="Button4" type="Button" parent="UI/Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 810.0
+offset_top = 70.0
+offset_right = 908.0
+offset_bottom = 165.0
+text = "4
+"
+
 [node name="character-d2" parent="." instance=ExtResource("9_dgnu1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6817, 0, 0.0574527)
+visible = false
 
 [node name="character-g2" parent="." instance=ExtResource("10_5qqh1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.26448, 0, 0.222686)
+visible = false
 
 [node name="character-h2" parent="." instance=ExtResource("11_keaua")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5325, 0, 0.458437)
+visible = false
 
 [node name="character-r2" parent="." instance=ExtResource("12_yaayf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.67174, 0, 3.82038)
+visible = false
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -89,13 +161,32 @@ camera_attributes = SubResource("CameraAttributesPractical_6xysf")
 [node name="Camera" type="Node3D" parent="Environment"]
 
 [node name="Camera3D" type="Camera3D" parent="Environment/Camera"]
-transform = Transform3D(0.999945, 0.00888052, -0.00562536, 0, 0.535122, 0.844775, 0.0105123, -0.844728, 0.535093, -0.099451, 20.6161, 17.9369)
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, -0.099451, 20.6161, 17.9369)
 
 [node name="Lights" type="Node3D" parent="Environment"]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment/Lights"]
+[node name="PlayLight" type="DirectionalLight3D" parent="Environment/Lights"]
+unique_name_in_owner = true
 transform = Transform3D(0.996282, -0.0860026, -0.00514929, 0.0387261, 0.393624, 0.918456, -0.0769626, -0.91524, 0.395491, 0, 6.55187, 0)
-light_color = Color(0.528852, 0.54751, 0.744392, 1)
+light_color = Color(0.744392, 0.62278, 0.528852, 1)
+light_energy = 0.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="Environment/Lights"]
+transform = Transform3D(0.886187, 0.433707, -0.163003, 0.463327, -0.829535, 0.311769, 0, -0.351809, -0.936072, -14.049, 17.8507, 0)
+visible = false
+editor_only = true
+
+[node name="WallLight1" parent="Environment/Lights" instance=ExtResource("7_8dmv6")]
+transform = Transform3D(4, 0, 0, 0, 3.88182, -0.965113, 0, 0.965113, 3.88182, -10.4058, 2.26891, -15.6953)
+
+[node name="WallLight2" parent="Environment/Lights" instance=ExtResource("7_8dmv6")]
+transform = Transform3D(4, 0, 0, 0, 3.88182, -0.965113, 0, 0.965113, 3.88182, 9.88798, 2.26891, -15.6953)
+
+[node name="WallLight3" parent="Environment/Lights" instance=ExtResource("7_8dmv6")]
+transform = Transform3D(-1.74846e-07, 0.967688, 3.88118, 0, 3.88118, -0.967688, -4, -4.2299e-08, -1.69652e-07, -15.9865, 2.26891, 8.95265)
+
+[node name="WallLight4" parent="Environment/Lights" instance=ExtResource("7_8dmv6")]
+transform = Transform3D(-1.74846e-07, -0.967688, -3.88118, 0, 3.88118, -0.967688, 4, -4.2299e-08, -1.69652e-07, 15.8207, 2.26891, 9.28265)
 
 [node name="Floors" type="Node3D" parent="Environment"]
 
@@ -469,6 +560,18 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 10, 0, -0.373314)
 [node name="wall5" parent="Environment/Floors/Walls/4walls8" instance=ExtResource("4_tceeg")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 14, 0, -0.373314)
 
+[node name="number-12" parent="Environment/Floors" instance=ExtResource("9_r1wu1")]
+transform = Transform3D(1.91069e-14, -4.37114e-07, 10, -10, -4.37114e-07, 0, 4.37114e-07, -10, -4.37114e-07, -10.4871, -0.583922, -5.73916)
+
+[node name="number-22" parent="Environment/Floors" instance=ExtResource("10_3siek")]
+transform = Transform3D(1.91069e-14, -4.37114e-07, 10, -10, -4.37114e-07, 0, 4.37114e-07, -10, -4.37114e-07, 10.1258, -0.583922, -6.49357)
+
+[node name="number-32" parent="Environment/Floors" instance=ExtResource("11_8dmv6")]
+transform = Transform3D(1.91069e-14, -4.37114e-07, 10, -10, -4.37114e-07, 0, 4.37114e-07, -10, -4.37114e-07, -10.4695, -0.583922, 12.1915)
+
+[node name="number-42" parent="Environment/Floors" instance=ExtResource("12_5ucx0")]
+transform = Transform3D(1.91069e-14, -4.37114e-07, 10, -10, -4.37114e-07, 0, 4.37114e-07, -10, -4.37114e-07, 10.2121, -0.583922, 12.2871)
+
 [node name="Outside" type="Node3D" parent="Environment"]
 
 [node name="rocks2" parent="Environment/Outside" instance=ExtResource("5_2ctbf")]
@@ -503,5 +606,7 @@ transform = Transform3D(1.33567, 0, 1.48862, 0, 2, 0, -1.48862, 0, 1.33567, 0.37
 
 [node name="container-flat5" parent="Environment/Batteries" instance=ExtResource("9_2ctbf")]
 transform = Transform3D(1.48507, 0, 1.33961, 0, 2, 0, -1.33961, 0, 1.48507, -0.47987, 0, 4.57953)
+
+[node name="Numbers" type="Node3D" parent="Environment"]
 
 [connection signal="pressed" from="UI/DebugMenu/VBoxContainer/Quit" to="GameController" method="_on_quit_pressed"]
