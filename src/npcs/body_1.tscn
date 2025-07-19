@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://dxygkf82phlru"]
+[gd_scene load_steps=46 format=4 uid="uid://dxygkf82phlru"]
 
 [ext_resource type="Texture2D" uid="uid://cuw8jwhly4bfg" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/Textures/texture-d.png" id="1_6qu8m"]
 [ext_resource type="Script" uid="uid://e0grrly4ifuq" path="res://src/npcs/body_controller.gd" id="1_lhcmr"]
@@ -6,6 +6,7 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x1lrr"]
 resource_name = "texture-d"
 albedo_texture = ExtResource("1_6qu8m")
+emission_enabled = true
 texture_filter = 1
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_0ww02"]
@@ -191,6 +192,32 @@ _surfaces = [{
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAALAA0ADQAOAAwADwAQABEAEQASAA8AEwAUABUAFQAWABMA"),
 "material": SubResource("StandardMaterial3D_x1lrr"),
+"name": "texture-d",
+"primitive": 3,
+"uv_scale": Vector4(0.988605, 2.73117, 0, 0),
+"vertex_count": 23,
+"vertex_data": PackedByteArray("AAAAAP///58AAAAAAAD/vwAA//8AAP+/AAD/////lrEAAP//AAD/v/////8AAP+/////////P6gAAP////8/qP///////5ax/////wAA/7///wAAAAD/v///AAD///+f////////P6gAAAAA////nwAA/////z+oAAD//wAA//8AAAAAAAD/////AAAAAP///////wAA/////wAA////v///AAAAAP+/AAAAAAAA/78AAAAA////v/9/////f////3////CXzLn///9/////f2K95VDk0JzCMcbxF/9/AAD/fwAA/38AAGK95VD/f///5NCcwv9/////f////3////9///8AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ckvv4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhcmr"]
+resource_name = "texture-d"
+albedo_texture = ExtResource("1_6qu8m")
+emission_enabled = true
+emission = Color(1, 0.822, 0.486847, 1)
+emission_energy_multiplier = 2.01
+texture_filter = 1
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_3lel8"]
+resource_name = "character-d_head"
+_surfaces = [{
+"aabb": AABB(-4, 0, -4, 8, 8, 8),
+"attribute_data": PackedByteArray("O6KQ9KOEkPSjhNnpO6LZ6bqhQd5Sv0HeUr/36Lqh9+hnv9jp/9zY6f/cjvRnv470fr/a6eahkPTmodrp///X6f//jfRm4o30ZuLX6TS/SPU0v///nKH//5yhSPU="),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAALAA0ADQAOAAwADwAQABEAEQASAA8AEwAUABUAFQAWABMA"),
+"material": SubResource("StandardMaterial3D_lhcmr"),
 "name": "texture-d",
 "primitive": 3,
 "uv_scale": Vector4(0.988605, 2.73117, 0, 0),
@@ -1887,6 +1914,11 @@ skeleton = NodePath("")
 [node name="head" type="MeshInstance3D" parent="character-d/root/torso"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1.2, 0)
 mesh = SubResource("ArrayMesh_aw57n")
+skeleton = NodePath("")
+
+[node name="head2" type="MeshInstance3D" parent="character-d/root/torso"]
+transform = Transform3D(1.10041e-09, 8.72663e-05, -0.0249998, -2.18556e-09, -0.0249998, -8.72663e-05, -0.025, 2.18938e-09, -1.09278e-09, 0, 1.91288, 0.307615)
+mesh = SubResource("ArrayMesh_3lel8")
 skeleton = NodePath("")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

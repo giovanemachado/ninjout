@@ -50,14 +50,16 @@ script = ExtResource("1_u6t28")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.97019, 0.242345, 0, -0.242345, -0.97019, 0, 0.830375, 0.367208)
-light_color = Color(0.988783, 0.713791, 0.533408, 1)
-light_energy = 2.0
-spot_range = 23.7498
-spot_angle = 74.6844
+light_color = Color(0.635294, 0.0862745, 0.0941176, 1)
+light_energy = 16.0
+light_volumetric_fog_energy = 0.0
+spot_range = 29.7659
+spot_attenuation = 0.4
+spot_angle = 46.5707
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.97019, 0.242345, 0, -0.242345, -0.97019, 0, 0.850412, 0.4478)
-light_color = Color(0.988235, 0.713726, 0.533333, 1)
+light_color = Color(0.635773, 0.0879222, 0.0922817, 1)
 omni_range = 1.36151
 
 [node name="WallLight1" type="Node3D" parent="."]

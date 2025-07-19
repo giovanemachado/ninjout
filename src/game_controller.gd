@@ -12,6 +12,7 @@ class_name GameController
 
 var lights_state: Array[bool] = [false, false, false, false]
 var can_toggle_lights: bool = true
+@onready var poweroff_animator: AnimationPlayer = $PoweroffAnimator
 
 signal light_toggled(light_number: int, is_on: bool)
 
@@ -27,9 +28,13 @@ signal light_toggled(light_number: int, is_on: bool)
 @onready var wall_light_3: WallLight = %WallLight3
 @onready var wall_light_4: WallLight = %WallLight4
 
-func _ready():
-	start_light_fade()
+@onready var indicator_square_b_1: Node3D = $"../Environment/Numbers/Number/indicator-square-b2"
+@onready var indicator_square_b_2: Node3D = $"../Environment/Numbers/Number2/indicator-square-b3"
+@onready var indicator_square_b_3: Node3D = $"../Environment/Numbers/Number3/indicator-square-b6"
+@onready var indicator_square_b_4: Node3D = $"../Environment/Numbers/Number4/indicator-square-b7"
 
+
+func _ready():
 	button.pressed.connect(_on_button_1_pressed)
 	button_2.pressed.connect(_on_button_2_pressed)
 	button_3.pressed.connect(_on_button_3_pressed)
@@ -38,6 +43,10 @@ func _ready():
 	cooldown_timer.timeout.connect(_on_cooldown_timer_timeout)
 	cooldown_timer.wait_time = button_cooldown_duration
 	cooldown_timer.one_shot = true
+	
+	play_light.light_energy = initial_light_energy
+	await get_tree().create_timer(15).timeout
+	start_light_fade()
 
 func _input(event):
 	if event.is_action_pressed("open_menu"):
@@ -59,13 +68,7 @@ func _on_quit_pressed() -> void:
 	quit_game()
 
 func start_light_fade():
-	play_light.light_energy = initial_light_energy
-
-	var tween = create_tween()
-	tween.tween_property(play_light, "light_energy", 0.0, light_fade_duration)
-	tween.tween_callback(light_fade_done)
-
-func light_fade_done():
+	poweroff_animator.play("power_off")
 	power_controller.start_energy_timer()
 
 func _on_button_1_pressed():
@@ -95,6 +98,16 @@ func toggle_light(light_number: int):
 	#print("Luz ", light_number, " está agora: ", "LIGADA" if lights_state[light_index] else "DESLIGADA")
 	if !lights_state[light_index]:
 		start_button_cooldown()
+
+	toggle_floor_light(light_index)
+
+func toggle_floor_light(light_index: int):
+	var indicators = [indicator_square_b_1, indicator_square_b_2, indicator_square_b_4, indicator_square_b_3]
+
+	if light_index >= 0 and light_index < indicators.size():
+		var indicator = indicators[light_index]
+		if indicator and indicator.has_method("toggle_glow"):
+			indicator.toggle_glow()
 
 func start_button_cooldown():
 	can_toggle_lights = false

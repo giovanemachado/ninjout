@@ -2,13 +2,13 @@ extends Node
 
 class_name PowerController
 @onready var energy_timer: Timer = $EnergyTimer
-@export var max_energy: int = 100
+@export var max_energy: float = 100
 @export var energy_subtract_timing: float = 0.5
-@export var light_base_consume: int = 1
+@export var light_base_consume: float = 1
 @export var light_multiplier: float = 1
-@export var hit_reduction_amount: int = 10
+@export var hit_reduction_amount: float = -10
 
-var current_energy: int
+var current_energy: float
 var lights_on_count: int = 0
 
 signal energy_depleted
@@ -26,10 +26,10 @@ func start_energy_timer():
 
 func _on_energy_timer_timeout():
 	var energy_consumption = light_base_consume + (lights_on_count * light_multiplier)
-
+	# print(-energy_consumption)
 	update_energy(-energy_consumption)
 
-func update_energy(amount: int):
+func update_energy(amount: float):
 	if amount == 0:
 		return
 

@@ -4,7 +4,7 @@ class_name WallLight
 
 @onready var spot_light: SpotLight3D = $SpotLight3D
 @onready var omni_light_3d: OmniLight3D = $OmniLight3D
-@export var light_energy_on: float = 2.0
+var light_energy_on: float = 2.0
 @export var light_energy_off: float = 0.0
 @export var fade_duration: float = 0.3
 
@@ -12,6 +12,7 @@ var is_light_on: bool = false
 var current_tween: Tween
 
 func _ready():
+	light_energy_on = spot_light.light_energy
 	spot_light.light_energy = light_energy_off
 	omni_light_3d.hide()
 
