@@ -8,6 +8,7 @@ class_name GameController
 @export var light_fade_duration: float = 3.0
 @export var initial_light_energy = 0.5
 @export var button_cooldown_duration: float = 0.5
+@onready var progress_bar: ProgressBar = %ProgressBar
 
 var lights_state: Array[bool] = [false, false, false, false]
 var can_toggle_lights: bool = true
@@ -19,6 +20,7 @@ signal light_toggled(light_number: int, is_on: bool)
 @onready var button_3: Button = %Button3
 @onready var button_4: Button = %Button4
 @onready var cooldown_timer: Timer = $CooldownTimer
+@onready var power_controller: PowerController = $"../PowerController"
 
 func _ready():
 	start_light_fade()
@@ -87,3 +89,20 @@ func start_button_cooldown():
 
 func _on_cooldown_timer_timeout():
 	can_toggle_lights = true
+
+
+func _on_power_controller_energy_updated(new_energy: int) -> void:
+	progress_bar.max_value = power_controller.max_energy
+	progress_bar.value = new_energy
+
+	var energy_percentage = float(new_energy) / float(power_controller.max_energy)
+	if energy_percentage <= 0.2:
+		progress_bar.modulate = Color.RED
+	elif energy_percentage <= 0.5:
+		progress_bar.modulate = Color.YELLOW
+	else:
+		progress_bar.modulate = Color.GREEN
+
+
+func _on_power_controller_energy_depleted() -> void:
+	SceneLoader.scene_transition(SceneLoader.SCENES.GAME_OVER)
