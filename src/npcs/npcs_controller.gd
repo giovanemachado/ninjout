@@ -40,8 +40,8 @@ var spawn_npcs: Array[Dictionary] = [
 @onready var sectors: Array[Array] = [
 	[sector_0_row_0, sector_0_row_1, sector_0_row_2, sector_0_row_3],
 	[sector_1_row_0, sector_1_row_1, sector_1_row_2, sector_1_row_3],
-	[sector_2_row_0, sector_2_row_1, sector_2_row_2, sector_2_row_3],
-	[sector_3_row_0, sector_3_row_1, sector_3_row_2, sector_3_row_3]
+	#[sector_2_row_0, sector_2_row_1, sector_2_row_2, sector_2_row_3],
+	#[sector_3_row_0, sector_3_row_1, sector_3_row_2, sector_3_row_3]
 ]
 
 func _ready():
@@ -146,7 +146,7 @@ func get_random_weighted_npc() -> Dictionary:
 func get_random_spawn_position() -> Vector3:
 	var random_sector = sectors.pick_random()
 
-	var first_row = sectors[random_sector][0]
+	var first_row = random_sector[0]
 	var random_marker = first_row.pick_random()
 
 	return random_marker.global_position

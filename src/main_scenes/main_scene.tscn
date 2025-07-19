@@ -199,12 +199,16 @@ script = ExtResource("2_5ucx0")
 
 [node name="EnergyTimer" type="Timer" parent="PowerController"]
 
-[node name="NPCsController" type="Node" parent="." node_paths=PackedStringArray("sector_0_row_0", "sector_0_row_1", "sector_0_row_2", "sector_0_row_3")]
+[node name="NPCsController" type="Node" parent="." node_paths=PackedStringArray("sector_0_row_0", "sector_0_row_1", "sector_0_row_2", "sector_0_row_3", "sector_1_row_0", "sector_1_row_1", "sector_1_row_2", "sector_1_row_3")]
 script = ExtResource("3_8dmv6")
 sector_0_row_0 = [NodePath("Markers/Sector0/Entry"), NodePath("Markers/Sector0/00"), NodePath("Markers/Sector0/01"), NodePath("Markers/Sector0/03")]
 sector_0_row_1 = [NodePath("Markers/Sector0/10"), NodePath("Markers/Sector0/11"), NodePath("Markers/Sector0/12"), NodePath("Markers/Sector0/13")]
 sector_0_row_2 = [NodePath("Markers/Sector0/20"), NodePath("Markers/Sector0/21"), NodePath("Markers/Sector0/22"), NodePath("Markers/Sector0/23")]
 sector_0_row_3 = [NodePath("Markers/Sector0/30"), NodePath("Markers/Sector0/31"), NodePath("Markers/Sector0/32"), NodePath("Markers/Sector0/Target")]
+sector_1_row_0 = [NodePath("Markers/Sector1/Entry"), NodePath("Markers/Sector1/00"), NodePath("Markers/Sector1/02"), NodePath("Markers/Sector1/03")]
+sector_1_row_1 = [NodePath("Markers/Sector1/10"), NodePath("Markers/Sector1/11"), NodePath("Markers/Sector1/12"), NodePath("Markers/Sector1/13")]
+sector_1_row_2 = [NodePath("Markers/Sector1/20"), NodePath("Markers/Sector1/21"), NodePath("Markers/Sector1/22"), NodePath("Markers/Sector1/23")]
+sector_1_row_3 = [NodePath("Markers/Sector1/31"), NodePath("Markers/Sector1/32"), NodePath("Markers/Sector1/33"), NodePath("Markers/Sector1/Target")]
 
 [node name="Spawned" type="Node3D" parent="NPCsController"]
 
@@ -258,6 +262,57 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.88029, 0.253851, -1.30174)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87314, 0.253851, -1.30174)
 
 [node name="Target" type="Marker3D" parent="NPCsController/Markers/Sector0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86898, 0.253851, -1.30174)
+
+[node name="Sector1" type="Node3D" parent="NPCsController/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2406, 0, -0.0656905)
+
+[node name="00" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5406, 0.253851, -12.8367)
+
+[node name="Entry" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.88029, 0.253851, -12.8367)
+
+[node name="02" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87314, 0.253851, -12.8367)
+
+[node name="03" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86898, 0.253851, -12.8367)
+
+[node name="10" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5406, 0.253851, -9.31978)
+
+[node name="11" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.88029, 0.253851, -9.31978)
+
+[node name="12" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87314, 0.253851, -9.31978)
+
+[node name="13" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86898, 0.253851, -9.31978)
+
+[node name="20" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5406, 0.253851, -4.81868)
+
+[node name="21" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.88029, 0.253851, -4.81868)
+
+[node name="22" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87314, 0.253851, -4.81868)
+
+[node name="23" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86898, 0.253851, -4.81868)
+
+[node name="Target" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5406, 0.253851, -1.30174)
+
+[node name="31" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.88029, 0.253851, -1.30174)
+
+[node name="32" type="Marker3D" parent="NPCsController/Markers/Sector1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87314, 0.253851, -1.30174)
+
+[node name="33" type="Marker3D" parent="NPCsController/Markers/Sector1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86898, 0.253851, -1.30174)
 
 [node name="SpawnTimer" type="Timer" parent="NPCsController"]
