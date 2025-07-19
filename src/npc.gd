@@ -4,7 +4,7 @@ class_name NPC
 
 @export var npcs_controller: NPCsController
 
-@export var speed: float = 3.0
+@export var speed: float = 1.5
 @export var running_speed: float = 6.0
 
 @export var rotation_speed: float = 10.0

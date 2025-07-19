@@ -8,7 +8,6 @@ class_name GameController
 @export var light_fade_duration: float = 2
 @export var initial_light_energy = 0.5
 @export var button_cooldown_duration: float = 0.5
-@onready var progress_bar: ProgressBar = %ProgressBar
 
 var lights_state: Array[bool] = [false, false, false, false]
 var can_toggle_lights: bool = true
@@ -16,10 +15,6 @@ var can_toggle_lights: bool = true
 
 signal light_toggled(light_number: int, is_on: bool)
 
-@onready var button: Button = %Button
-@onready var button_2: Button = %Button2
-@onready var button_3: Button = %Button3
-@onready var button_4: Button = %Button4
 @onready var cooldown_timer: Timer = $CooldownTimer
 @onready var power_controller: PowerController = $"../PowerController"
 
@@ -36,24 +31,31 @@ signal light_toggled(light_number: int, is_on: bool)
 @onready var explosion_effect: AudioStreamPlayer3D = $ExplosionEffect
 @onready var hit_metal_effect: AudioStreamPlayer3D = $HitMetalEffect
 
+@export var initial_timeout = 15
+
 func _ready():
-	button.pressed.connect(_on_button_1_pressed)
-	button_2.pressed.connect(_on_button_2_pressed)
-	button_3.pressed.connect(_on_button_3_pressed)
-	button_4.pressed.connect(_on_button_4_pressed)
 	SignalBus.hit_battery.connect(_on_hit_battery)
 
 	cooldown_timer.timeout.connect(_on_cooldown_timer_timeout)
 	cooldown_timer.wait_time = button_cooldown_duration
 	cooldown_timer.one_shot = true
-	
+
 	play_light.light_energy = initial_light_energy
-	await get_tree().create_timer(15).timeout
+	await get_tree().create_timer(initial_timeout).timeout
 	start_light_fade()
 
 func _input(event):
 	if event.is_action_pressed("open_menu"):
 		open_menu()
+
+	if event.is_action_pressed("light1"):
+		toggle_light(1)
+	elif event.is_action_pressed("light2"):
+		toggle_light(2)
+	elif event.is_action_pressed("light3"):
+		toggle_light(3)
+	elif event.is_action_pressed("light4"):
+		toggle_light(4)
 
 func open_menu():
 	if !is_debug_menu_avaiable:
@@ -120,20 +122,6 @@ func start_button_cooldown():
 func _on_cooldown_timer_timeout():
 	can_toggle_lights = true
 
-
-func _on_power_controller_energy_updated(new_energy: int) -> void:
-	progress_bar.max_value = power_controller.max_energy
-	progress_bar.value = new_energy
-
-	var energy_percentage = float(new_energy) / float(power_controller.max_energy)
-	if energy_percentage <= 0.2:
-		progress_bar.modulate = Color.RED
-	elif energy_percentage <= 0.5:
-		progress_bar.modulate = Color.YELLOW
-	else:
-		progress_bar.modulate = Color.GREEN
-
-
 func _on_power_controller_energy_depleted() -> void:
 	SceneLoader.scene_transition(SceneLoader.SCENES.GAME_OVER)
 
@@ -146,5 +134,6 @@ func get_sectors_with_lights_on() -> Array[int]:
 
 	return sectors_with_lights
 
-func _on_hit_battery():
-	hit_metal_effect.playing = true
+func _on_hit_battery(is_enemy: bool):
+	if is_enemy:
+		hit_metal_effect.playing = true

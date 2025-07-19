@@ -1,7 +1,7 @@
 extends Node
 
 # signal game_over
-signal hit_battery
+signal hit_battery(is_enemy: bool)
 
 
 # To connect:

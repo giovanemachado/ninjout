@@ -1,10 +1,9 @@
-[gd_scene load_steps=36 format=4 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=37 format=4 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
 [ext_resource type="Script" uid="uid://dtelihkft1rus" path="res://src/power_controller.gd" id="2_5ucx0"]
 [ext_resource type="AudioStream" uid="uid://m8tg55fk5too" path="res://asssets/explosion-under-snow-sfx-230505.mp3" id="2_8dmv6"]
 [ext_resource type="AudioStream" uid="uid://c7eo6sf0oi24n" path="res://asssets/bullet-hit-metal-84818.mp3" id="3_5nsj5"]
-[ext_resource type="Texture2D" uid="uid://bxv4v80rbyxkr" path="res://asssets/kenney_ui-pack-space-expansion/button_square_header_small_rectangle.png" id="3_5ucx0"]
 [ext_resource type="Script" uid="uid://gfg2mnxh7hf0" path="res://src/npcs/npcs_controller.gd" id="3_8dmv6"]
 [ext_resource type="PackedScene" uid="uid://4utmxih65j2x" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor-detail.glb" id="3_8xemo"]
 [ext_resource type="PackedScene" uid="uid://kpvdiilggxo0" path="res://asssets/kenney_space-station-kit/Models/GLB format/wall.glb" id="4_tceeg"]
@@ -17,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://dimkjl06nif0o" path="res://asssets/kenney_prototype-kit/Models/GLB format/Textures/colormap.png" id="12_5nsj5"]
 [ext_resource type="PackedScene" uid="uid://cp2pycanhplb3" path="res://src/objects/indicator.tscn" id="12_6xysf"]
 [ext_resource type="PackedScene" uid="uid://ceer6o22xqo1k" path="res://asssets/kenney_space-station-kit/Models/GLB format/door-double-closed.glb" id="14_r1wu1"]
+[ext_resource type="PackedScene" uid="uid://caywhctj5f7io" path="res://asssets/kenney_space-station-kit/Models/GLB format/pipe-ring.glb" id="16_5nsj5"]
+[ext_resource type="PackedScene" uid="uid://dyrhsxewh1b1y" path="res://asssets/kenney_prototype-kit/Models/GLB format/pipe-corner.glb" id="17_dgnu1"]
 
 [sub_resource type="Animation" id="Animation_r1wu1"]
 resource_name = "power_off"
@@ -237,7 +238,8 @@ shadow_mesh = SubResource("ArrayMesh_cp2kq")
 unique_name_in_owner = true
 script = ExtResource("1_bcs0a")
 light_fade_duration = 0.5
-button_cooldown_duration = 1.5
+button_cooldown_duration = 0.2
+initial_timeout = 5
 
 [node name="CooldownTimer" type="Timer" parent="GameController"]
 
@@ -256,12 +258,14 @@ stream = ExtResource("3_5nsj5")
 volume_db = -5.0
 pitch_scale = 1.5
 
-[node name="PowerController" type="Node" parent="."]
+[node name="PowerController" type="Node" parent="." node_paths=PackedStringArray("batteries", "batteries2")]
 script = ExtResource("2_5ucx0")
 energy_subtract_timing = 1.0
 light_base_consume = 0.25
 light_multiplier = 2.0
 hit_reduction_amount = -15.0
+batteries = [NodePath("../Environment/Batteries/3Batteries/Battery"), NodePath("../Environment/Batteries/3Batteries/Battery2"), NodePath("../Environment/Batteries/3Batteries/Battery3"), NodePath("../Environment/Batteries/3Batteries3/Battery"), NodePath("../Environment/Batteries/3Batteries3/Battery2"), NodePath("../Environment/Batteries/3Batteries3/Battery3")]
+batteries2 = [NodePath("../Environment/Batteries/3Batteries2/Battery"), NodePath("../Environment/Batteries/3Batteries2/Battery2"), NodePath("../Environment/Batteries/3Batteries2/Battery3"), NodePath("../Environment/Batteries/3Batteries4/Battery"), NodePath("../Environment/Batteries/3Batteries4/Battery2"), NodePath("../Environment/Batteries/3Batteries4/Battery3")]
 
 [node name="EnergyTimer" type="Timer" parent="PowerController"]
 
@@ -545,70 +549,6 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "quit"
-
-[node name="Panel" type="Control" parent="UI"]
-layout_mode = 3
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -200.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="ButtonSquareHeaderSmallRectangle" type="Sprite2D" parent="UI/Panel"]
-visible = false
-position = Vector2(573, 161.205)
-rotation = 3.14159
-scale = Vector2(3.875, 1.92468)
-texture = ExtResource("3_5ucx0")
-
-[node name="Button" type="Button" parent="UI/Panel"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 323.0
-offset_top = 98.0
-offset_right = 421.0
-offset_bottom = 193.0
-text = "1
-"
-
-[node name="Button2" type="Button" parent="UI/Panel"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 473.0
-offset_top = 98.0
-offset_right = 571.0
-offset_bottom = 193.0
-text = "2"
-
-[node name="Button3" type="Button" parent="UI/Panel"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 633.0
-offset_top = 98.0
-offset_right = 731.0
-offset_bottom = 193.0
-text = "3
-"
-
-[node name="Button4" type="Button" parent="UI/Panel"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 799.0
-offset_top = 98.0
-offset_right = 897.0
-offset_bottom = 193.0
-text = "4
-"
-
-[node name="ProgressBar" type="ProgressBar" parent="UI/Panel"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 256.0
-offset_top = 60.0
-offset_right = 969.0
-offset_bottom = 87.0
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -1122,26 +1062,73 @@ transform = Transform3D(5.76453, 0, 1.66439, 0, 6, 0, -1.66439, 0, 5.76453, -19.
 [node name="Batteries" type="Node3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000490189, 0.105066, -0.0470562)
 
-[node name="Battery" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
-transform = Transform3D(-1.03856, 0, -1.70921, 0, 2, 0, 1.70921, 0, -1.03856, 1.01951, 0, 2.34379)
+[node name="3Batteries" type="Node3D" parent="Environment/Batteries"]
 
-[node name="Battery2" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
-transform = Transform3D(0.660502, 0, -1.88779, 0, 2, 0, 1.88779, 0, 0.660502, 1.01951, 0, 0.50545)
+[node name="Battery" parent="Environment/Batteries/3Batteries" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 0, 1.37309)
 
-[node name="Battery3" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
-transform = Transform3D(-1.94501, 0, 0.46577, 0, 2, 0, -0.46577, 0, -1.94501, -1.55213, 0, 0.50545)
+[node name="Battery2" parent="Environment/Batteries/3Batteries" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 1.01373, 1.37309)
 
-[node name="Battery7" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
-transform = Transform3D(-1.94501, 0.465768, -0.00150385, 2.98023e-08, -0.00645764, -1.99999, -0.46577, -1.945, 0.00628008, -0.537995, 1.17252, 0.747529)
+[node name="Battery3" parent="Environment/Batteries/3Batteries" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 2.03815, 1.37309)
 
-[node name="Battery4" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
-transform = Transform3D(1.7355, 0, 0.994009, 0, 2, 0, -0.994009, 0, 1.7355, -0.775017, 0, 2.44272)
+[node name="3Batteries2" type="Node3D" parent="Environment/Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.34496, 0, -2.34527)
 
-[node name="Battery5" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
-transform = Transform3D(0.579367, 0, 1.91425, 0, 2, 0, -1.91425, 0, 0.579367, -0.0558783, 0.86729, 1.88306)
+[node name="Battery" parent="Environment/Batteries/3Batteries2" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 0, 1.37309)
 
-[node name="Battery6" parent="Environment/Batteries" instance=ExtResource("10_dnrlx")]
-transform = Transform3D(1.43822, -0.973887, 0.991496, 0.49543, 1.69236, 0.943652, -1.29849, -0.432981, 1.45824, 0.852823, 0.555797, -0.203096)
+[node name="Battery2" parent="Environment/Batteries/3Batteries2" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 1.01373, 1.37309)
+
+[node name="Battery3" parent="Environment/Batteries/3Batteries2" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 2.03815, 1.37309)
+
+[node name="3Batteries3" type="Node3D" parent="Environment/Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.08376, 0)
+
+[node name="Battery" parent="Environment/Batteries/3Batteries3" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 0, 1.37309)
+
+[node name="Battery2" parent="Environment/Batteries/3Batteries3" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 1.01373, 1.37309)
+
+[node name="Battery3" parent="Environment/Batteries/3Batteries3" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 2.03815, 1.37309)
+
+[node name="3Batteries4" type="Node3D" parent="Environment/Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.34496, 3.08376, -2.34527)
+
+[node name="Battery" parent="Environment/Batteries/3Batteries4" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 0, 1.37309)
+
+[node name="Battery2" parent="Environment/Batteries/3Batteries4" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 1.01373, 1.37309)
+
+[node name="Battery3" parent="Environment/Batteries/3Batteries4" instance=ExtResource("10_dnrlx")]
+transform = Transform3D(-1.41421, 0, 1.41421, 0, 2, 0, -1.41421, 0, -1.41421, 0.0488127, 2.03815, 1.37309)
+
+[node name="pipe-ring2" parent="Environment/Batteries" instance=ExtResource("16_5nsj5")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.61211, -0.00127196, 0.24194)
+
+[node name="pipe-ring3" parent="Environment/Batteries" instance=ExtResource("16_5nsj5")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.61211, 2.49302, 0.24194)
+
+[node name="pipe-ring4" parent="Environment/Batteries" instance=ExtResource("16_5nsj5")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.61211, 4.9829, 0.24194)
+
+[node name="pipe-ring5" parent="Environment/Batteries" instance=ExtResource("16_5nsj5")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.61211, 7.45442, 0.24194)
+
+[node name="pipe-ring6" parent="Environment/Batteries" instance=ExtResource("16_5nsj5")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.61211, 9.88445, 0.24194)
+
+[node name="pipe-ring7" parent="Environment/Batteries" instance=ExtResource("16_5nsj5")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.61211, 12.34, 0.24194)
+
+[node name="pipe-corner2" parent="Environment/Batteries" instance=ExtResource("17_dgnu1")]
+transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, -2.3026, -0.124313, 0.0062119)
 
 [node name="Numbers" type="Node3D" parent="Environment"]
 
@@ -1224,7 +1211,6 @@ transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, -18.1398, 0.274664, -3.807
 [connection signal="light_toggled" from="GameController" to="PowerController" method="_on_game_controller_light_toggled"]
 [connection signal="light_toggled" from="GameController" to="NPCsController" method="_on_game_controller_light_toggled"]
 [connection signal="energy_depleted" from="PowerController" to="GameController" method="_on_power_controller_energy_depleted"]
-[connection signal="energy_updated" from="PowerController" to="GameController" method="_on_power_controller_energy_updated"]
 [connection signal="body_entered" from="NPCsController/HitDetector" to="NPCsController/HitDetector" method="_on_body_entered"]
 [connection signal="body_exited" from="NPCsController/HitDetector" to="NPCsController/HitDetector" method="_on_body_exited"]
 [connection signal="pressed" from="UI/DebugMenu/VBoxContainer/Quit" to="GameController" method="_on_quit_pressed"]
