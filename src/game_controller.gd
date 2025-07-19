@@ -61,9 +61,9 @@ func _on_quit_pressed() -> void:
 func start_light_fade():
 	play_light.light_energy = initial_light_energy
 
-	var tween = create_tween()
-	tween.tween_property(play_light, "light_energy", 0.0, light_fade_duration)
-	tween.tween_callback(light_fade_done)
+	#var tween = create_tween()
+	#tween.tween_property(play_light, "light_energy", 0.0, light_fade_duration)
+	#tween.tween_callback(light_fade_done)
 
 func light_fade_done():
 	power_controller.start_energy_timer()
