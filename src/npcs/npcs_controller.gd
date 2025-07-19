@@ -5,8 +5,16 @@ class_name NPCsController
 @export var spawn_interval: float = 1.0
 var spawn_npcs: Array[Dictionary] = [
 	{
-		weight = 1,
-		scene = preload("res://src/npcs/npc.tscn")
+		weight = 4,
+		scene = preload("res://src/npcs/npc.tscn"),
+		body = preload("res://src/npcs/body_0.tscn"),
+		type = NPC.NPCType.ENEMY
+	},
+	{
+		weight = 6,
+		scene = preload("res://src/npcs/npc.tscn"),
+		body = preload("res://src/npcs/body_1.tscn"),
+		type = NPC.NPCType.GOOD_BOT
 	}
 ]
 
@@ -43,6 +51,9 @@ var spawn_npcs: Array[Dictionary] = [
 	[sector_2_row_0, sector_2_row_1, sector_2_row_2, sector_2_row_3],
 	[sector_3_row_0, sector_3_row_1, sector_3_row_2, sector_3_row_3]
 ]
+
+@onready var game_controller: GameController = %GameController
+
 
 func _ready():
 	setup_spawn_system()
@@ -108,8 +119,9 @@ func setup_spawn_system():
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
+	#spawn_npc()
 
-	print("Sistema de spawn iniciado - Intervalo: ", spawn_interval, "s")
+	# print("Sistema de spawn iniciado - Intervalo: ", spawn_interval, "s")
 
 func _on_spawn_timer_timeout():
 	spawn_npc()
@@ -118,14 +130,23 @@ func spawn_npc():
 	var selected_npc_data = get_random_weighted_npc()
 	var spawn = get_random_spawn_position()
 
+	if spawn == null:
+		return
+
 	var npc_scene = selected_npc_data.scene as PackedScene
+	var body_scene = selected_npc_data.body as PackedScene
 
 	var npc_instance = npc_scene.instantiate()
 	spawned_container.add_child(npc_instance)
+	var body_instance = body_scene.instantiate()
+	npc_instance.add_child(body_instance)
+
+	npc_instance.type = selected_npc_data.type
+	npc_instance.body = body_instance
 	npc_instance.npcs_controller = self
 	npc_instance.current_sector = spawn.sector
 	npc_instance.global_position = spawn.position
-	
+
 	#print("NPC spawnado em: ", spawn.position, " Secotr: ", spawn.sector)
 
 func get_random_weighted_npc() -> Dictionary:
@@ -145,15 +166,34 @@ func get_random_weighted_npc() -> Dictionary:
 	return spawn_npcs[0] if not spawn_npcs.is_empty() else {}
 
 func get_random_spawn_position():
-	var sector_indexes = sectors.size()
-	var sector_indexes_list: Array[int]
-	for index in sector_indexes:
-		sector_indexes_list.append(index)
-		
-	var random_sector_index = sector_indexes_list.pick_random()
+	var sectors_with_lights = game_controller.get_sectors_with_lights_on()
+	var available_sectors: Array[int] = []
+
+	for i in range(sectors.size()):
+		if not sectors_with_lights.has(i):
+			available_sectors.append(i)
+
+	if available_sectors.is_empty():
+		return null
+
+
+	var random_sector_index = available_sectors.pick_random()
 	var random_sector = sectors[random_sector_index]
-		
+
 	var first_row = random_sector[0]
 	var random_marker = first_row.pick_random()
-	
-	return { position = random_marker.global_position, sector = random_sector_index }
+
+	return {position = random_marker.global_position, sector = random_sector_index}
+
+
+func _on_game_controller_light_toggled(light_number: int, is_on: bool) -> void:
+	if is_on:
+		make_enemies_flee_from_sector(light_number)
+
+func make_enemies_flee_from_sector(sector: int):
+	for child in spawned_container.get_children():
+		if child is NPC:
+			var npc = child as NPC
+			if npc.type == NPC.NPCType.ENEMY and npc.current_sector == (sector - 1):
+				npc.has_reached_target = true
+				npc.is_running_away = true

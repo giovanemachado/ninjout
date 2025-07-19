@@ -5,6 +5,8 @@ class_name NPC
 @export var npcs_controller: NPCsController
 
 @export var speed: float = 3.0
+@export var running_speed: float = 6.0
+
 @export var rotation_speed: float = 10.0
 
 var has_reached_target = false
@@ -15,20 +17,30 @@ var current_sector = 0
 
 var target_position: Vector3
 var is_moving = false
+var body: Node3D
+enum NPCType {ENEMY, GOOD_BOT}
+var type: NPCType
+
+var is_running_away = false
 
 func _ready():
 	await get_tree().create_timer(0.3).timeout
 	get_next_position()
+
+func _process(_delta: float):
+	if is_moving == false && has_returned:
+		queue_free()
+
+	if is_running_away:
+		speed = running_speed
 
 func _physics_process(delta):
 	if is_moving and not has_returned:
 		move_towards_target(delta)
 
 func get_next_position():
-	if has_returned:
-		is_moving = false
-		queue_free()
-		return
+	if has_reached_target:
+		is_running_away = true
 
 	var next_data = npcs_controller.get_next_position(
 		self,

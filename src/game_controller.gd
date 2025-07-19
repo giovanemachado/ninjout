@@ -118,3 +118,12 @@ func _on_power_controller_energy_updated(new_energy: int) -> void:
 
 func _on_power_controller_energy_depleted() -> void:
 	SceneLoader.scene_transition(SceneLoader.SCENES.GAME_OVER)
+
+func get_sectors_with_lights_on() -> Array[int]:
+	var sectors_with_lights: Array[int] = []
+
+	for i in range(lights_state.size()):
+		if lights_state[i]:
+			sectors_with_lights.append(i)
+
+	return sectors_with_lights

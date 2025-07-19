@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=26 format=4 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
 [ext_resource type="Script" uid="uid://dtelihkft1rus" path="res://src/power_controller.gd" id="2_5ucx0"]
@@ -10,10 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://c33kra5w48yw6" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor.glb" id="8_5nsj5"]
 [ext_resource type="PackedScene" uid="uid://cm8p3vjkhphan" path="res://src/wall_light/wall_light.tscn" id="8_dgnu1"]
 [ext_resource type="PackedScene" uid="uid://1ym0ryrx0bl6" path="res://asssets/kenney_space-station-kit/Models/GLB format/container-flat.glb" id="9_2ctbf"]
-[ext_resource type="PackedScene" uid="uid://clw652babmjjo" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/character-g.glb" id="10_5qqh1"]
-[ext_resource type="PackedScene" uid="uid://bo2gyf3akjax8" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/character-h.glb" id="11_keaua"]
 [ext_resource type="Texture2D" uid="uid://dimkjl06nif0o" path="res://asssets/kenney_prototype-kit/Models/GLB format/Textures/colormap.png" id="12_5nsj5"]
-[ext_resource type="PackedScene" uid="uid://khigok8cxkla" path="res://asssets/kenney_blocky-characters_20/Models/GLB format/character-r.glb" id="12_yaayf"]
 
 [sub_resource type="Environment" id="Environment_dnrlx"]
 background_energy_multiplier = 0.0
@@ -190,6 +187,7 @@ shadow_mesh = SubResource("ArrayMesh_cp2kq")
 [node name="Main" type="Node"]
 
 [node name="GameController" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_bcs0a")
 
 [node name="CooldownTimer" type="Timer" parent="GameController"]
@@ -201,6 +199,7 @@ script = ExtResource("2_5ucx0")
 
 [node name="NPCsController" type="Node" parent="." node_paths=PackedStringArray("sector_0_row_0", "sector_0_row_1", "sector_0_row_2", "sector_0_row_3", "sector_1_row_0", "sector_1_row_1", "sector_1_row_2", "sector_1_row_3", "sector_2_row_0", "sector_2_row_1", "sector_2_row_2", "sector_2_row_3", "sector_3_row_0", "sector_3_row_1", "sector_3_row_2", "sector_3_row_3")]
 script = ExtResource("3_8dmv6")
+spawn_interval = 3.0
 sector_0_row_0 = [NodePath("Markers/Sector0/Entry"), NodePath("Markers/Sector0/00"), NodePath("Markers/Sector0/01"), NodePath("Markers/Sector0/03")]
 sector_0_row_1 = [NodePath("Markers/Sector0/10"), NodePath("Markers/Sector0/11"), NodePath("Markers/Sector0/12"), NodePath("Markers/Sector0/13")]
 sector_0_row_2 = [NodePath("Markers/Sector0/20"), NodePath("Markers/Sector0/21"), NodePath("Markers/Sector0/22"), NodePath("Markers/Sector0/23")]
@@ -533,18 +532,6 @@ offset_left = 256.0
 offset_top = 60.0
 offset_right = 969.0
 offset_bottom = 87.0
-
-[node name="character-g2" parent="." instance=ExtResource("10_5qqh1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.26448, 0, 0.222686)
-visible = false
-
-[node name="character-h2" parent="." instance=ExtResource("11_keaua")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5325, 0, 0.458437)
-visible = false
-
-[node name="character-r2" parent="." instance=ExtResource("12_yaayf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.67174, 0, 3.82038)
-visible = false
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -1059,6 +1046,7 @@ mesh = SubResource("ArrayMesh_dgnu1")
 skeleton = NodePath("")
 
 [connection signal="light_toggled" from="GameController" to="PowerController" method="_on_game_controller_light_toggled"]
+[connection signal="light_toggled" from="GameController" to="NPCsController" method="_on_game_controller_light_toggled"]
 [connection signal="energy_depleted" from="PowerController" to="GameController" method="_on_power_controller_energy_depleted"]
 [connection signal="energy_updated" from="PowerController" to="GameController" method="_on_power_controller_energy_updated"]
 [connection signal="pressed" from="UI/DebugMenu/VBoxContainer/Quit" to="GameController" method="_on_quit_pressed"]
