@@ -126,7 +126,7 @@ func spawn_npc():
 	npc_instance.current_sector = spawn.sector
 	npc_instance.global_position = spawn.position
 	
-	print("NPC spawnado em: ", spawn.position, " Secotr: ", spawn.sector)
+	#print("NPC spawnado em: ", spawn.position, " Secotr: ", spawn.sector)
 
 func get_random_weighted_npc() -> Dictionary:
 	var total_weight = 0.0
@@ -152,8 +152,8 @@ func get_random_spawn_position():
 		
 	var random_sector_index = sector_indexes_list.pick_random()
 	var random_sector = sectors[random_sector_index]
-
+		
 	var first_row = random_sector[0]
 	var random_marker = first_row.pick_random()
-
+	
 	return { position = random_marker.global_position, sector = random_sector_index }
