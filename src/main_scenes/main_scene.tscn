@@ -199,7 +199,7 @@ button_cooldown_duration = 1.5
 script = ExtResource("2_5ucx0")
 energy_subtract_timing = 1.5
 light_multiplier = 2.0
-hit_reduction_amount = -15
+hit_reduction_amount = -10
 
 [node name="EnergyTimer" type="Timer" parent="PowerController"]
 
@@ -487,6 +487,7 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="ButtonSquareHeaderSmallRectangle" type="Sprite2D" parent="UI/Panel"]
+visible = false
 position = Vector2(573, 161.205)
 rotation = 3.14159
 scale = Vector2(3.875, 1.92468)

@@ -93,4 +93,5 @@ func move_towards_target(delta):
 	move_and_slide()
 
 func hit_battery():
+	had_hit_battery = true
 	SignalBus.emit_signal("hit_battery")

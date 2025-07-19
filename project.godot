@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="kenney-jam-2025-2"
-run/main_scene="uid://dhv3xgaopsbgx"
+run/main_scene="uid://cj3df4ck6peaf"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Globals="*res://utils/Globals.gd"
 SignalBus="*res://utils/SignalBus.gd"
 SceneLoader="*res://src/main_scenes/scenes/scene_loader.tscn"
+GlobalAudioStreamPlayer="*res://src/audio_stream_player.tscn"
 
 [display]
 

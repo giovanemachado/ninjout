@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cljhy8aru4mra"]
+
+[ext_resource type="AudioStream" uid="uid://pxywl0ojxgik" path="res://asssets/lofi-chill-background-music-313055.mp3" id="1_op8hp"]
+[ext_resource type="Script" uid="uid://d12tclxbp8h34" path="res://src/music_manager.gd" id="2_wsvg5"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_op8hp")
+volume_db = -25.0
+pitch_scale = 1.5
+autoplay = true
+script = ExtResource("2_wsvg5")

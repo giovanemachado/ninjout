@@ -42,17 +42,17 @@ func update_energy(amount: int):
 
 	if current_energy <= 0:
 		energy_depleted.emit()
-		print("Energia esgotada!")
+		# print("Energia esgotada!")
 
 func light_on():
 	lights_on_count += 1
 	lights_on_count = clamp(lights_on_count, 0, 4)
-	print("Luzes acesas: ", lights_on_count)
+	# print("Luzes acesas: ", lights_on_count)
 
 func light_off():
 	lights_on_count -= 1
 	lights_on_count = clamp(lights_on_count, 0, 4)
-	print("Luzes acesas: ", lights_on_count)
+	# print("Luzes acesas: ", lights_on_count)
 
 
 func _on_game_controller_light_toggled(light_number: int, is_on: bool) -> void:
