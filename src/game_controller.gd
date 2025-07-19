@@ -5,7 +5,7 @@ class_name GameController
 @onready var debug_menu: Control = %DebugMenu
 @onready var play_light: Light3D = %PlayLight
 @export var is_debug_menu_avaiable = false
-@export var light_fade_duration: float = 3.0
+@export var light_fade_duration: float = 2
 @export var initial_light_energy = 0.5
 @export var button_cooldown_duration: float = 0.5
 @onready var progress_bar: ProgressBar = %ProgressBar
@@ -58,6 +58,10 @@ func start_light_fade():
 
 	var tween = create_tween()
 	tween.tween_property(play_light, "light_energy", 0.0, light_fade_duration)
+	tween.tween_callback(light_fade_done)
+
+func light_fade_done():
+	power_controller.start_energy_timer()
 
 func _on_button_1_pressed():
 	toggle_light(1)

@@ -621,6 +621,7 @@ transform = Transform3D(1.48507, 0, 1.33961, 0, 2, 0, -1.33961, 0, 1.48507, -0.4
 
 [node name="Numbers" type="Node3D" parent="Environment"]
 
+[connection signal="light_toggled" from="GameController" to="PowerController" method="_on_game_controller_light_toggled"]
 [connection signal="energy_depleted" from="PowerController" to="GameController" method="_on_power_controller_energy_depleted"]
 [connection signal="energy_updated" from="PowerController" to="GameController" method="_on_power_controller_energy_updated"]
 [connection signal="pressed" from="UI/DebugMenu/VBoxContainer/Quit" to="GameController" method="_on_quit_pressed"]
