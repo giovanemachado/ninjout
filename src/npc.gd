@@ -27,6 +27,7 @@ func _physics_process(delta):
 func get_next_position():
 	if has_returned:
 		is_moving = false
+		queue_free()
 		return
 
 	var next_data = npcs_controller.get_next_position(
@@ -43,7 +44,7 @@ func get_next_position():
 		target_position = next_data.position
 
 		is_moving = true
-		print("NPC indo para row: ", current_row, ", index: ", current_index)
+		#print("NPC indo para row: ", current_row, ", index: ", current_index)
 
 func move_towards_target(delta):
 	if not is_moving:
