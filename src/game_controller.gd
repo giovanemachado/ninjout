@@ -22,6 +22,11 @@ signal light_toggled(light_number: int, is_on: bool)
 @onready var cooldown_timer: Timer = $CooldownTimer
 @onready var power_controller: PowerController = $"../PowerController"
 
+@onready var wall_light: WallLight = %WallLight
+@onready var wall_light_2: WallLight = %WallLight2
+@onready var wall_light_3: WallLight = %WallLight3
+@onready var wall_light_4: WallLight = %WallLight4
+
 func _ready():
 	start_light_fade()
 
@@ -81,6 +86,9 @@ func toggle_light(light_number: int):
 
 	var light_index = light_number - 1
 	lights_state[light_index] = !lights_state[light_index]
+
+	var wall_lights = [wall_light, wall_light_2, wall_light_3, wall_light_4]
+	wall_lights[light_index].toggle_light()
 
 	light_toggled.emit(light_number, lights_state[light_index])
 
