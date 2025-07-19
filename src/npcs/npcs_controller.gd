@@ -2,6 +2,17 @@ extends Node
 
 class_name NPCsController
 
+@export var spawn_interval: float = 1.0
+var spawn_npcs: Array[Dictionary] = [
+	{
+		weight = 1,
+		scene = preload("res://src/npcs/npc.tscn")
+	}
+]
+
+@onready var spawn_timer: Timer = $SpawnTimer
+@onready var spawned_container: Node3D = $Spawned
+
 @export var sector_0_row_0: Array[Marker3D]
 @export var sector_0_row_1: Array[Marker3D]
 @export var sector_0_row_2: Array[Marker3D]
@@ -13,6 +24,9 @@ class_name NPCsController
 	[[], [], [], []], # Setor 2
 	[[], [], [], []] # Setor 3
 ]
+
+func _ready():
+	setup_spawn_system()
 
 func get_next_position(npc: NPC, sector: int, current_row: int, current_index: int, has_reached_target: bool):
 	var invalid_sector = sector < 0 or sector >= sectors.size()
@@ -70,3 +84,53 @@ func get_target_index(sector: int) -> int:
 
 func format_data(row: int, index: int, marker: Marker3D):
 	return {"row": row, "index": index, "position": marker.global_position}
+
+func setup_spawn_system():
+	spawn_timer.wait_time = spawn_interval
+	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
+	spawn_timer.start()
+
+	print("Sistema de spawn iniciado - Intervalo: ", spawn_interval, "s")
+
+func _on_spawn_timer_timeout():
+	spawn_npc()
+
+func spawn_npc():
+	var selected_npc_data = get_random_weighted_npc()
+	var spawn_position = get_random_spawn_position()
+
+	var npc_scene = selected_npc_data.scene as PackedScene
+	if not npc_scene:
+		print("Erro: Scene do NPC inválida")
+		return
+
+	var npc_instance = npc_scene.instantiate()
+	spawned_container.add_child(npc_instance)
+	npc_instance.npcs_controller = self
+	npc_instance.global_position = spawn_position
+
+	print("NPC spawnado em: ", spawn_position)
+
+func get_random_weighted_npc() -> Dictionary:
+	var total_weight = 0.0
+	for npc_data in spawn_npcs:
+		if npc_data.has("weight"):
+			total_weight += npc_data.weight
+
+	var random_value = randf() * total_weight
+	var current_weight = 0.0
+
+	for npc_data in spawn_npcs:
+		current_weight += npc_data.weight
+		if random_value < current_weight:
+			return npc_data
+
+	return spawn_npcs[0] if not spawn_npcs.is_empty() else {}
+
+func get_random_spawn_position() -> Vector3:
+	var random_sector = 0 # available_sectors[sectors.pick_random()]
+
+	var first_row = sectors[random_sector][0]
+	var random_marker = first_row.pick_random()
+
+	return random_marker.global_position

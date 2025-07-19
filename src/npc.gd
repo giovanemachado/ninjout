@@ -2,10 +2,10 @@ extends CharacterBody3D
 
 class_name NPC
 
-@onready var npcs_controller: NPCsController = $".."
+@export var npcs_controller: NPCsController
 
 @export var speed: float = 3.0
-@export var rotation_speed: float = 10.0 # Velocidade da rotação suave
+@export var rotation_speed: float = 10.0
 
 var has_reached_target = false
 var has_returned = false

@@ -1,11 +1,10 @@
-[gd_scene load_steps=30 format=4 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=29 format=4 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
 [ext_resource type="Script" uid="uid://dtelihkft1rus" path="res://src/power_controller.gd" id="2_5ucx0"]
 [ext_resource type="Texture2D" uid="uid://bxv4v80rbyxkr" path="res://asssets/kenney_ui-pack-space-expansion/button_square_header_small_rectangle.png" id="3_5ucx0"]
 [ext_resource type="Script" uid="uid://gfg2mnxh7hf0" path="res://src/npcs/npcs_controller.gd" id="3_8dmv6"]
 [ext_resource type="PackedScene" uid="uid://4utmxih65j2x" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor-detail.glb" id="3_8xemo"]
-[ext_resource type="PackedScene" uid="uid://cghwuqy5x04s1" path="res://src/npcs/npc.tscn" id="4_3siek"]
 [ext_resource type="PackedScene" uid="uid://kpvdiilggxo0" path="res://asssets/kenney_space-station-kit/Models/GLB format/wall.glb" id="4_tceeg"]
 [ext_resource type="PackedScene" uid="uid://cc433vdsf6qy0" path="res://asssets/kenney_space-station-kit/Models/GLB format/rocks.glb" id="5_2ctbf"]
 [ext_resource type="PackedScene" uid="uid://c33kra5w48yw6" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor.glb" id="8_5nsj5"]
@@ -207,6 +206,8 @@ sector_0_row_1 = [NodePath("Markers/Sector0/10"), NodePath("Markers/Sector0/11")
 sector_0_row_2 = [NodePath("Markers/Sector0/20"), NodePath("Markers/Sector0/21"), NodePath("Markers/Sector0/22"), NodePath("Markers/Sector0/23")]
 sector_0_row_3 = [NodePath("Markers/Sector0/30"), NodePath("Markers/Sector0/31"), NodePath("Markers/Sector0/32"), NodePath("Markers/Sector0/Target")]
 
+[node name="Spawned" type="Node3D" parent="NPCsController"]
+
 [node name="Markers" type="Node3D" parent="NPCsController"]
 
 [node name="Sector0" type="Node3D" parent="NPCsController/Markers"]
@@ -259,8 +260,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87314, 0.253851, -1.30174)
 [node name="Target" type="Marker3D" parent="NPCsController/Markers/Sector0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86898, 0.253851, -1.30174)
 
-[node name="NPC" parent="NPCsController" instance=ExtResource("4_3siek")]
-transform = Transform3D(0.375658, 0, 0.926758, 0, 1, 0, -0.926758, 0, 0.375658, -13.6609, 0, -6.15604)
+[node name="SpawnTimer" type="Timer" parent="NPCsController"]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
