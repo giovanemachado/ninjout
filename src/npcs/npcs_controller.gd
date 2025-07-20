@@ -3,7 +3,9 @@ extends Node
 class_name NPCsController
 
 @export var spawn_interval: float = 1.0
-var spawn_npcs: Array[Dictionary] = [
+@export var max_good_bots: int = 8 # Limite máximo de bots bons
+
+var base_spawn_npcs: Array[Dictionary] = [
 	{
 		weight = 4,
 		scene = preload("res://src/npcs/npc.tscn"),
@@ -11,12 +13,15 @@ var spawn_npcs: Array[Dictionary] = [
 		type = NPC.NPCType.ENEMY
 	},
 	{
-		weight = 0.1,
+		weight = 6,
 		scene = preload("res://src/npcs/npc.tscn"),
 		body = preload("res://src/npcs/body_1.tscn"),
 		type = NPC.NPCType.GOOD_BOT
 	}
 ]
+
+var spawn_npcs: Array[Dictionary] = []
+var current_good_bots_count: int = 0
 
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var spawned_container: Node3D = $Spawned
@@ -54,8 +59,8 @@ var spawn_npcs: Array[Dictionary] = [
 
 @onready var game_controller: GameController = %GameController
 
-
 func _ready():
+	update_spawn_weights()
 	setup_spawn_system()
 
 func get_next_position(npc: NPC, sector: int, current_row: int, current_index: int, has_reached_target: bool):
@@ -119,12 +124,24 @@ func setup_spawn_system():
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
-	#spawn_npc()
-
-	# print("Sistema de spawn iniciado - Intervalo: ", spawn_interval, "s")
 
 func _on_spawn_timer_timeout():
 	spawn_npc()
+
+func update_spawn_weights():
+	var difficulty_level = game_controller.difficult_level
+
+	spawn_npcs.clear()
+
+	for npc_data in base_spawn_npcs:
+		var updated_npc = npc_data.duplicate()
+
+		if npc_data.type == NPC.NPCType.ENEMY:
+			updated_npc.weight = npc_data.weight + difficulty_level
+
+		spawn_npcs.append(updated_npc)
+
+	# print("Pesos atualizados - Nível ", difficulty_level, ": Inimigo=", spawn_npcs[0].weight, ", Bot Bom=", spawn_npcs[1].weight)
 
 func spawn_npc():
 	var selected_npc_data = get_random_weighted_npc()
@@ -132,6 +149,12 @@ func spawn_npc():
 
 	if spawn == null:
 		return
+
+	if selected_npc_data.type == NPC.NPCType.GOOD_BOT:
+		count_current_good_bots()
+		if current_good_bots_count >= max_good_bots:
+			print("Limite de bots bons atingido (", max_good_bots, "). Spawn cancelado.")
+			return
 
 	var npc_scene = selected_npc_data.scene as PackedScene
 	var body_scene = selected_npc_data.body as PackedScene
@@ -147,7 +170,19 @@ func spawn_npc():
 	npc_instance.current_sector = spawn.sector
 	npc_instance.global_position = spawn.position
 
-	#print("NPC spawnado em: ", spawn.position, " Secotr: ", spawn.sector)
+	if selected_npc_data.type == NPC.NPCType.GOOD_BOT:
+		npc_instance.tree_exiting.connect(_on_good_bot_removed)
+
+func count_current_good_bots():
+	current_good_bots_count = 0
+	for child in spawned_container.get_children():
+		if child is NPC:
+			var npc = child as NPC
+			if npc.type == NPC.NPCType.GOOD_BOT:
+				current_good_bots_count += 1
+
+func _on_good_bot_removed():
+	count_current_good_bots()
 
 func get_random_weighted_npc() -> Dictionary:
 	var total_weight = 0.0

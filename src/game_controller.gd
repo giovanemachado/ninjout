@@ -12,8 +12,9 @@ class_name GameController
 var lights_state: Array[bool] = [false, false, false, false]
 var can_toggle_lights: bool = true
 @onready var poweroff_animator: AnimationPlayer = $PoweroffAnimator
-@export var difficult_timing: float
-var difficult_level: int
+@export var difficult_timing: float = 15.0
+var difficult_level: int = 1
+var max_difficult_level: int = 5
 @onready var difficult_timer: Timer = $DifficultTimer
 
 signal light_toggled(light_number: int, is_on: bool)
@@ -44,6 +45,8 @@ signal light_toggled(light_number: int, is_on: bool)
 @export var score_increase_by_bot: int = 5
 @onready var score_timer: Timer = $ScoreTimer
 
+@onready var npcs_controller: NPCsController = $"../NPCsController"
+
 func _ready():
 	SignalBus.hit_battery.connect(_on_hit_battery)
 
@@ -57,6 +60,12 @@ func _ready():
 	score_timer.timeout.connect(_on_score_timer_timeout)
 	score_timer.wait_time = 1.0
 	score_timer.start()
+
+	difficult_timer.timeout.connect(_on_difficult_timer_timeout)
+	difficult_timer.wait_time = difficult_timing
+	difficult_timer.start()
+
+	print("Jogo iniciado - Nível de dificuldade: ", difficult_level)
 
 	play_light.light_energy = initial_light_energy
 	await get_tree().create_timer(initial_timeout).timeout
@@ -172,3 +181,15 @@ func update_score_display():
 
 func _on_score_timer_timeout():
 	update_score(1)
+
+func _on_difficult_timer_timeout():
+	if difficult_level < max_difficult_level:
+		difficult_level += 1
+		print("Dificuldade aumentou para nível: ", difficult_level)
+
+		npcs_controller.update_spawn_weights()
+
+		difficult_timer.start()
+	else:
+		difficult_level = max_difficult_level
+		difficult_timer.stop()
