@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://k0cmamxypxt7"]
+
+[ext_resource type="FontFile" uid="uid://dam073586feg" path="res://asssets/Dokdo-Regular.ttf" id="1_yndyx"]
+
+[resource]
+default_font = ExtResource("1_yndyx")
+Label/colors/font_color = Color(0.948052, 0.759331, 0.118638, 1)
+Label/font_sizes/font_size = 48

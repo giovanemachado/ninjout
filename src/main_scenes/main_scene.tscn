@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=45 format=4 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
 [ext_resource type="Script" uid="uid://dtelihkft1rus" path="res://src/power_controller.gd" id="2_5ucx0"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://chb1jmxami74s" path="res://src/objects/small_light.tscn" id="6_8xemo"]
 [ext_resource type="PackedScene" uid="uid://c33kra5w48yw6" path="res://asssets/kenney_space-station-kit/Models/GLB format/floor.glb" id="8_5nsj5"]
 [ext_resource type="PackedScene" uid="uid://cm8p3vjkhphan" path="res://src/wall_light/wall_light.tscn" id="8_dgnu1"]
+[ext_resource type="Theme" uid="uid://k0cmamxypxt7" path="res://src/main_scenes/theme.tres" id="9_5je4p"]
 [ext_resource type="PackedScene" uid="uid://ch0pwbuxebu3d" path="res://src/batteries/battery.tscn" id="10_dnrlx"]
 [ext_resource type="Texture2D" uid="uid://dimkjl06nif0o" path="res://asssets/kenney_prototype-kit/Models/GLB format/Textures/colormap.png" id="12_5nsj5"]
 [ext_resource type="PackedScene" uid="uid://cp2pycanhplb3" path="res://src/objects/indicator.tscn" id="12_6xysf"]
@@ -614,6 +615,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("9_5je4p")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Score"]
 layout_mode = 1
