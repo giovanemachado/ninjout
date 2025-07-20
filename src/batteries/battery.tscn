@@ -56,11 +56,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.062403, 0.320871, -0.677054
 light_color = Color(0.85301, 0.687974, 0.488213, 1)
 omni_range = 0.519629
 
-[node name="OmniLight3D3" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36286, 0.644152)
-light_color = Color(0.85301, 0.687974, 0.488213, 1)
-omni_range = 0.534023
-
 [node name="Model" type="Node3D" parent="."]
 
 [node name="container-flat" type="MeshInstance3D" parent="Model"]

@@ -1,7 +1,6 @@
 extends Node3D
 
 @onready var omni_light_3d_2: OmniLight3D = $OmniLight3D2
-@onready var omni_light_3d_3: OmniLight3D = $OmniLight3D3
 
 @export var first_blink_interval: float = 0.1
 @export var blink_interval: float = 1.25
@@ -30,7 +29,6 @@ func _ready():
 
 func turn_off_light():
 	omni_light_3d_2.light_energy = light_energy_off
-	omni_light_3d_3.light_energy = light_energy_off
 	blink_timer.stop()
 
 func setup_blinking_lights():
@@ -39,7 +37,6 @@ func setup_blinking_lights():
 	blink_timer.start()
 
 	omni_light_3d_2.light_energy = light_energy_off
-	omni_light_3d_3.light_energy = light_energy_off
 
 func _on_blink_timer_timeout():
 	if not blink_state:
@@ -53,15 +50,11 @@ func _on_blink_timer_timeout():
 
 func turn_lights_on():
 	var tween1 = create_tween()
-	var tween2 = create_tween()
 	tween1.tween_property(omni_light_3d_2, "light_energy", light_energy_on, 0.05)
-	tween2.tween_property(omni_light_3d_3, "light_energy", light_energy_on, 0.05)
 
 func turn_lights_off():
 	var tween1 = create_tween()
-	var tween2 = create_tween()
 	tween1.tween_property(omni_light_3d_2, "light_energy", light_energy_off, 0.05)
-	tween2.tween_property(omni_light_3d_3, "light_energy", light_energy_off, 0.05)
 
 func flash_red():
 	if is_color_changed:
@@ -70,7 +63,6 @@ func flash_red():
 	is_color_changed = true
 
 	omni_light_3d_2.light_color = Color.RED
-	omni_light_3d_3.light_color = Color.RED
 
 	color_timer.wait_time = color_change_duration
 	color_timer.start()
@@ -82,12 +74,10 @@ func flash_green():
 	is_color_changed = true
 
 	omni_light_3d_2.light_color = Color.GREEN
-	omni_light_3d_3.light_color = Color.GREEN
 
 	color_timer.wait_time = color_change_duration
 	color_timer.start()
 
 func _on_color_timer_timeout():
 	omni_light_3d_2.light_color = original_color
-	omni_light_3d_3.light_color = original_color
 	is_color_changed = false
