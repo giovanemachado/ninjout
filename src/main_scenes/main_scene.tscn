@@ -63,11 +63,16 @@ size = Vector3(4.93173, 3.07727, 4.84799)
 
 [sub_resource type="Environment" id="Environment_dnrlx"]
 background_energy_multiplier = 0.0
+glow_enabled = true
+glow_intensity = 1.15
+glow_bloom = 0.18
 volumetric_fog_enabled = true
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_6xysf"]
+dof_blur_far_enabled = true
 dof_blur_far_distance = 80.0
 dof_blur_far_transition = 873.95
+dof_blur_near_enabled = true
 dof_blur_amount = 0.03
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dgnu1"]
@@ -275,7 +280,7 @@ script = ExtResource("4_dgnu1")
 [node name="PowerController" type="Node" parent="." node_paths=PackedStringArray("batteries", "batteries2")]
 script = ExtResource("2_5ucx0")
 energy_subtract_timing = 1.0
-light_base_consume = 0.25
+light_base_consume = 0.5
 light_multiplier = 2.0
 hit_reduction_amount = -15.0
 batteries = [NodePath("../Environment/Batteries/3Batteries/Battery"), NodePath("../Environment/Batteries/3Batteries/Battery2"), NodePath("../Environment/Batteries/3Batteries/Battery3"), NodePath("../Environment/Batteries/3Batteries3/Battery"), NodePath("../Environment/Batteries/3Batteries3/Battery2"), NodePath("../Environment/Batteries/3Batteries3/Battery3")]
@@ -605,7 +610,7 @@ camera_attributes = SubResource("CameraAttributesPractical_6xysf")
 
 [node name="Camera3D" type="Camera3D" parent="Environment/Camera"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, -0.099451, 20.6161, 17.9369)
+transform = Transform3D(0.999991, 0.00324049, -0.00287152, 0, 0.663213, 0.74843, 0.00432971, -0.748423, 0.663207, 0.0922398, 18.3197, 17.1656)
 
 [node name="Lights" type="Node3D" parent="Environment"]
 
