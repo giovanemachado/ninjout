@@ -65,7 +65,7 @@ func _ready():
 	difficult_timer.wait_time = difficult_timing
 	difficult_timer.start()
 
-	print("Jogo iniciado - Nível de dificuldade: ", difficult_level)
+	# print("Jogo iniciado - Nível de dificuldade: ", difficult_level)
 
 	play_light.light_energy = initial_light_energy
 	await get_tree().create_timer(initial_timeout).timeout
@@ -185,7 +185,7 @@ func _on_score_timer_timeout():
 func _on_difficult_timer_timeout():
 	if difficult_level < max_difficult_level:
 		difficult_level += 1
-		print("Dificuldade aumentou para nível: ", difficult_level)
+		# print("Dificuldade aumentou para nível: ", difficult_level)
 
 		npcs_controller.update_spawn_weights()
 
