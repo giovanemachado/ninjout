@@ -6,6 +6,5 @@
 [node name="AudioStreamPlayer" type="AudioStreamPlayer"]
 stream = ExtResource("1_op8hp")
 volume_db = -25.0
-pitch_scale = 1.5
 autoplay = true
 script = ExtResource("2_wsvg5")

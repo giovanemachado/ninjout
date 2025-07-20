@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://dhv3xgaopsbgx"]
+[gd_scene load_steps=47 format=4 uid="uid://dhv3xgaopsbgx"]
 
 [ext_resource type="Script" uid="uid://2dycoec22pj2" path="res://src/game_controller.gd" id="1_bcs0a"]
 [ext_resource type="Script" uid="uid://dtelihkft1rus" path="res://src/power_controller.gd" id="2_5ucx0"]
@@ -23,6 +23,23 @@
 [ext_resource type="PackedScene" uid="uid://caywhctj5f7io" path="res://asssets/kenney_space-station-kit/Models/GLB format/pipe-ring.glb" id="16_5nsj5"]
 [ext_resource type="Script" uid="uid://bd1068g2b6bex" path="res://src/batteries/battery.gd" id="16_yaayf"]
 [ext_resource type="PackedScene" uid="uid://dyrhsxewh1b1y" path="res://asssets/kenney_prototype-kit/Models/GLB format/pipe-corner.glb" id="17_dgnu1"]
+[ext_resource type="Texture2D" uid="uid://u171tbpfokqq" path="res://asssets/Group 7.png" id="24_s8dni"]
+[ext_resource type="Texture2D" uid="uid://dln6roo5n4p83" path="res://asssets/Group 6.png" id="25_k15t1"]
+
+[sub_resource type="Animation" id="Animation_3siek"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%PlayLight:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
 
 [sub_resource type="Animation" id="Animation_r1wu1"]
 resource_name = "power_off"
@@ -38,21 +55,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.5, 0.1, 0.6, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_3siek"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("%PlayLight:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.5]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8dmv6"]
@@ -328,6 +330,7 @@ batteries2 = [NodePath("../Environment/Batteries/3Batteries2/Battery"), NodePath
 [node name="EnergyTimer" type="Timer" parent="PowerController"]
 
 [node name="NPCsController" type="Node" parent="." node_paths=PackedStringArray("sector_0_row_0", "sector_0_row_1", "sector_0_row_2", "sector_0_row_3", "sector_1_row_0", "sector_1_row_1", "sector_1_row_2", "sector_1_row_3", "sector_2_row_0", "sector_2_row_1", "sector_2_row_2", "sector_2_row_3", "sector_3_row_0", "sector_3_row_1", "sector_3_row_2", "sector_3_row_3")]
+unique_name_in_owner = true
 script = ExtResource("3_8dmv6")
 spawn_interval = 3.0
 sector_0_row_0 = [NodePath("Markers/Sector0/Entry"), NodePath("Markers/Sector0/00"), NodePath("Markers/Sector0/01"), NodePath("Markers/Sector0/03")]
@@ -626,7 +629,7 @@ offset_left = -158.0
 offset_bottom = 40.0
 grow_horizontal = 0
 theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
+theme_override_constants/margin_right = 100
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Score/MarginContainer"]
 layout_mode = 2
@@ -639,6 +642,31 @@ text = "kw/h"
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
+
+[node name="Label" type="Label" parent="UI/Score"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -49.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 1
+text = "[1][2][3][4] to control alarms"
+
+[node name="Group7" type="Sprite2D" parent="UI"]
+position = Vector2(1024, 301)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("24_s8dni")
+
+[node name="Group6" type="Sprite2D" parent="UI"]
+position = Vector2(1025, 526)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("25_k15t1")
 
 [node name="Environment" type="Node3D" parent="."]
 

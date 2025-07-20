@@ -45,7 +45,9 @@ signal light_toggled(light_number: int, is_on: bool)
 @export var score_increase_by_bot: int = 5
 @onready var score_timer: Timer = $ScoreTimer
 
-@onready var npcs_controller: NPCsController = $"../NPCsController"
+@onready var npcs_controller: NPCsController = %NPCsController
+
+var is_score_animating: bool = false
 
 func _ready():
 	SignalBus.hit_battery.connect(_on_hit_battery)
@@ -175,9 +177,56 @@ func update_score(points: int):
 	Globals.add_score(points)
 	update_score_display()
 
+	if points > 0:
+		score_positive_effect()
+	elif points < 0:
+		score_negative_effect()
+
 func update_score_display():
 	if score_label:
 		score_label.text = str(Globals.get_score())
+
+func score_positive_effect():
+	if not score_label or is_score_animating:
+		return
+
+	is_score_animating = true
+
+	var original_color = score_label.modulate
+	var original_scale = score_label.scale
+
+	var tween = create_tween()
+
+	tween.tween_property(score_label, "modulate", Color.GREEN, 0.1)
+	tween.parallel().tween_property(score_label, "scale", original_scale * 1.3, 0.1)
+
+	tween.tween_callback(func(): await get_tree().create_timer(0.2).timeout)
+
+	tween.tween_property(score_label, "modulate", original_color, 0.3)
+	tween.parallel().tween_property(score_label, "scale", original_scale, 0.3)
+
+	tween.tween_callback(func(): is_score_animating = false)
+
+func score_negative_effect():
+	if not score_label or is_score_animating:
+		return
+
+	is_score_animating = true
+
+	var original_color = score_label.modulate
+	var original_scale = score_label.scale
+
+	var tween = create_tween()
+
+	tween.tween_property(score_label, "modulate", Color.RED, 0.05)
+	tween.parallel().tween_property(score_label, "scale", original_scale * 0.8, 0.05)
+
+	tween.tween_callback(func(): await get_tree().create_timer(0.1).timeout)
+
+	tween.tween_property(score_label, "modulate", original_color, 0.2)
+	tween.parallel().tween_property(score_label, "scale", original_scale, 0.2)
+
+	tween.tween_callback(func(): is_score_animating = false)
 
 func _on_score_timer_timeout():
 	update_score(1)

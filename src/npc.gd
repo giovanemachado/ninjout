@@ -8,6 +8,7 @@ class_name NPC
 @export var running_speed: float = 6.0
 
 @export var rotation_speed: float = 10.0
+@onready var spot: Sprite3D = $Spot
 
 var has_reached_target = false
 var has_returned = false
@@ -91,3 +92,7 @@ func move_towards_target(delta):
 		get_next_position()
 
 	move_and_slide()
+
+func caught_on_light():
+	var tween = create_tween()
+	tween.tween_property(spot, "modulate:a", 1.0, 0.2)

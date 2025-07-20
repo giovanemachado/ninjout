@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cghwuqy5x04s1"]
+[gd_scene load_steps=4 format=3 uid="uid://cghwuqy5x04s1"]
 
 [ext_resource type="Script" uid="uid://dqdopmhgo5d52" path="res://src/npc.gd" id="1_ux0ts"]
+[ext_resource type="Texture2D" uid="uid://g61mgtdqbhob" path="res://src/npcs/crosshair_color_b.png" id="2_ux0ts"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3siek"]
 radius = 0.70071
@@ -22,3 +23,8 @@ light_energy = 0.0
 light_size = 0.196
 spot_range = 8.68954
 spot_angle = 18.4093
+
+[node name="Spot" type="Sprite3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 0, 0.451965, -0.0715847)
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("2_ux0ts")

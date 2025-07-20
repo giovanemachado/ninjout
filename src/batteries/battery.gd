@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var omni_light_3d_2: OmniLight3D = $OmniLight3D2
 
-@export var first_blink_interval: float = 0.1
+@export var first_blink_interval: float = 0.5
 @export var blink_interval: float = 1.25
 @export var blink_duration: float = 0.05
 @export var light_energy_on: float = 5.0
@@ -24,7 +24,7 @@ func _ready():
 	color_timer.timeout.connect(_on_color_timer_timeout)
 	color_timer.one_shot = true
 
-	await get_tree().create_timer(randf() * initial_delay_range).timeout
+	#await get_tree().create_timer(randf() * initial_delay_range).timeout
 	setup_blinking_lights()
 
 func turn_off_light():

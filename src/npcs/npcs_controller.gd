@@ -3,7 +3,7 @@ extends Node
 class_name NPCsController
 
 @export var spawn_interval: float = 1.0
-@export var max_good_bots: int = 8 # Limite máximo de bots bons
+@export var max_good_bots: int = 8
 
 var base_spawn_npcs: Array[Dictionary] = [
 	{
@@ -58,6 +58,8 @@ var current_good_bots_count: int = 0
 ]
 
 @onready var game_controller: GameController = %GameController
+
+var is_first_spawn = true
 
 func _ready():
 	update_spawn_weights()
@@ -144,7 +146,14 @@ func update_spawn_weights():
 	# print("Pesos atualizados - Nível ", difficulty_level, ": Inimigo=", spawn_npcs[0].weight, ", Bot Bom=", spawn_npcs[1].weight)
 
 func spawn_npc():
-	var selected_npc_data = get_random_weighted_npc()
+	var selected_npc_data
+	if is_first_spawn:
+		selected_npc_data = base_spawn_npcs[0]
+		is_first_spawn = false
+	else:
+		selected_npc_data = get_random_weighted_npc()
+		is_first_spawn = false
+
 	var spawn = get_random_spawn_position()
 
 	if spawn == null:
@@ -153,7 +162,6 @@ func spawn_npc():
 	if selected_npc_data.type == NPC.NPCType.GOOD_BOT:
 		count_current_good_bots()
 		if current_good_bots_count >= max_good_bots:
-			print("Limite de bots bons atingido (", max_good_bots, "). Spawn cancelado.")
 			return
 
 	var npc_scene = selected_npc_data.scene as PackedScene
@@ -229,5 +237,8 @@ func make_enemies_flee_from_sector(sector: int):
 		if child is NPC:
 			var npc = child as NPC
 			if npc.type == NPC.NPCType.ENEMY and npc.current_sector == (sector - 1):
-				npc.has_reached_target = true
-				npc.is_running_away = true
+				if !npc.has_reached_target && !npc.is_running_away:
+					npc.has_reached_target = true
+					npc.is_running_away = true
+					npc.caught_on_light()
+					game_controller.update_score(10)
