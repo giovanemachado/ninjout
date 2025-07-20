@@ -6,6 +6,8 @@
 [node name="GameOver" type="Node"]
 script = ExtResource("1_giqi7")
 
+[node name="Delay" type="Timer" parent="."]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" type="Control" parent="CanvasLayer"]

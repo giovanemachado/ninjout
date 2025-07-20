@@ -48,12 +48,19 @@ signal light_toggled(light_number: int, is_on: bool)
 @onready var npcs_controller: NPCsController = %NPCsController
 
 var is_score_animating: bool = false
+@onready var tutorial: Label = %Tutorial
+
+func _process(delta: float) -> void:
+	check_tutorial_visibility()
 
 func _ready():
 	SignalBus.hit_battery.connect(_on_hit_battery)
 
 	Globals.reset_score()
 	update_score_display()
+
+	if tutorial:
+		tutorial.visible = false
 
 	cooldown_timer.timeout.connect(_on_cooldown_timer_timeout)
 	cooldown_timer.wait_time = button_cooldown_duration
@@ -66,8 +73,6 @@ func _ready():
 	difficult_timer.timeout.connect(_on_difficult_timer_timeout)
 	difficult_timer.wait_time = difficult_timing
 	difficult_timer.start()
-
-	# print("Jogo iniciado - Nível de dificuldade: ", difficult_level)
 
 	play_light.light_energy = initial_light_energy
 	await get_tree().create_timer(initial_timeout).timeout
@@ -107,6 +112,14 @@ func start_light_fade():
 	poweroff_animator.play("power_off")
 	power_controller.start_energy_timer()
 
+
+func check_tutorial_visibility():
+	if tutorial and npcs_controller:
+		if not npcs_controller.is_first_spawn:
+			tutorial.visible = true
+		else:
+			tutorial.visible = false
+
 func _on_button_1_pressed():
 	toggle_light(1)
 
@@ -121,6 +134,9 @@ func _on_button_4_pressed():
 
 func toggle_light(light_number: int):
 	if not can_toggle_lights:
+		return
+
+	if npcs_controller.is_first_spawn:
 		return
 
 	var light_index = light_number - 1
